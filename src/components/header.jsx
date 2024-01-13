@@ -39,7 +39,7 @@ const Header = () => {
       <nav className="flex items-center sticky justify-between">
         <div>
           <Link href="/">
-            <button className="text-white text-lg font-semibold hover:text-blue-500">Work Manager</button>
+            <button className="text-white text-lg font-semibold hover:text-blue-500">Task Manager</button>
           </Link>
         </div>
         <div className='flex'>

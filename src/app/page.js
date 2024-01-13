@@ -3,7 +3,7 @@ import AddTask from "@/components/sidebarAddTask";
 import ShowTasks from "@/components/showTask";
 
 export const metadata = {
-  title: 'Home : Work Manager',
+  title: 'Home : Task Manager',
   description: 'View or add your tasks here',
 }
 

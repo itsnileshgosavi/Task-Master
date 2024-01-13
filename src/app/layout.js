@@ -9,8 +9,8 @@ import UserProvider from "./context/userProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Work Manager",
-  description: "Manage your work here",
+  title: "Task Manager",
+  description: "Manage your tasks here",
 };
 
 export default function RootLayout({ children }) {
