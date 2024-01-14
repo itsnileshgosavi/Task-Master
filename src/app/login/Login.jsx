@@ -49,8 +49,8 @@ const Login = () => {
         
     };
   return (
-    <div className='flex flex-col items-center justify-center p-8 space-y-4 bg-blue-300 h-screen'>
-    <h1 className='text-6xl p-10 text-gray-800'>Login</h1>
+    <div className='flex flex-col items-center justify-center p-8 space-y-4 bg-gray-800 h-screen'>
+    <h1 className='text-6xl p-10 text-white'>Login</h1>
 
     <label htmlFor='email' className='text-white'>
       Email
@@ -85,7 +85,7 @@ const Login = () => {
     </button>
     <span><button
       type='submit'
-      className='px-6 py-3 bg-green-400 text-white rounded-md hover:bg-gray-500 focus:outline-none focus:border-gray-700 focus:ring focus:ring-gray-200'
+      className='px-3 py-2 bg-green-400 text-white rounded-3xl hover:bg-gray-500 focus:outline-none focus:border-gray-700 focus:ring focus:ring-gray-200'
       onClick={signupClick}
     >
       Sign Up Here

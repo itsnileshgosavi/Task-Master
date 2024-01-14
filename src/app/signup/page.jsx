@@ -46,8 +46,8 @@ const RegisterUser = () => {
   };
 
   return (
-    <div className='flex flex-col items-center justify-center p-8 space-y-4 bg-blue-300 h-screen'>
-      <h1 className='text-6xl p-10 text-gray-800'>Sign UP</h1>
+    <div className='flex flex-col items-center justify-center p-8 space-y-4 bg-gray-800 h-screen'>
+      <h1 className='text-6xl p-10 text-white'>Sign UP</h1>
     <label htmlFor='name' className='text-white'>
       Name
     </label>
@@ -90,7 +90,7 @@ const RegisterUser = () => {
     <input
       type='text'
       placeholder='Enter profile picture URL'
-      className='px-4 py-2 bg-gray-50 text-black rounded-md'
+      className='px-4 py-2 bg-gray-50 text-black rounded-lg'
       id='profile_picture'
       name='profile_picture'
       onChange={handleChange}
@@ -98,7 +98,7 @@ const RegisterUser = () => {
 
     <button
       type='submit'
-      className='px-6 py-3 bg-gray-400 text-white rounded-md hover:bg-gray-500 focus:outline-none focus:border-gray-700 focus:ring focus:ring-gray-200'
+      className='px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-gray-500 focus:outline-none focus:border-gray-700 focus:ring focus:ring-gray-200'
       onClick={handleRegister}
     >
       Register

@@ -58,7 +58,7 @@ const Header = () => {
           {context.user ? (
             <>
               <Link href="/profile/user" className='hover:text-green-600'>{context.user.name}</Link>
-              <button className="ms-3 px-6 py-3 bg-red-700 text-white rounded-3xl hover:bg-red-500 focus:outline-none focus:border-gray-700 focus:ring focus:ring-gray-200" onClick={doLogout}>Logout</button>
+              <button className="ms-1 px-3 py-0 bg-red-700 text-white rounded-3xl hover:bg-red-500 focus:outline-none focus:border-gray-700 focus:ring focus:ring-gray-200" onClick={doLogout}>Logout</button>
             </>
           ) : (
             <>
