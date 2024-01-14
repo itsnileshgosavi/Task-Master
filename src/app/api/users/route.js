@@ -1,6 +1,9 @@
 import { User } from "@/models/user";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
+import { connectDb } from "@/helper/db";
+
+connectDb();
 
 export async function GET(request) {
   const users = await User.find();
