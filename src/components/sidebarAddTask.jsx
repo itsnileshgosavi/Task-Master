@@ -65,65 +65,91 @@ const AddTask = () => {
     <div className="w-72 p-8 bg-inherit-700 h-10">
       <h1 className="text-3xl mb-4 text-white">Add Your Task</h1>
 
-      <label htmlFor="title" className="block text-white-800 mb-2">
-        Title
-      </label>
-      <input
-        type="text"
-        placeholder="Enter title"
-        className="w-full py-2 px-3 border border-gray-300 mb-4 text-black"
-        id="title"
-        name="title"
-        onChange={handleChange}
-      />
+      <form action="#!" onSubmit={handleClick}>
+          <div className="mt-4 flex justify-center">
+            <label htmlFor="title" className="block text-sm font-medium mb-2">
+              Title
+            </label>
+          </div>
 
-      <label htmlFor="content" className="block text-white-800 mb-2">
-        Content
-      </label>
-      <textarea
-        type="text"
-        placeholder="Enter content"
-        className="textarea textarea-bordered textarea-lg w-full max-w-xs max-h-96 py-2 px-3 border border-gray-300 mb-4 text-black"
-        id="content"
-        name="content"
-        onChange={handleChange}
-      />
+          <div className="mt-4 flex justify-center">
+            <input
+              type="text"
+              placeholder="Enter title"
+              className="w-full p-3 rounded-3xl bg-gray-800 focus:ring-gray-400-100 border border-gray-800"
+              id="title"
+              name="title"
+              onChange={(event) => {
+                setFormData({
+                  ...formData,
+                  title: event.target.value,
+                });
+              }}
+            />
+          </div>
+          <div className="mt-4 flex justify-center">
 
-      <label htmlFor="status" className="block text-white-800 mb-2">
-        Status
-      </label>
-      <select
-        className="px-4 py-2 bg-gray-50 text-black rounded-md"
-        id="status"
-        name="status"
-        value={formData.status}
-        onChange={handleChange}
-        
-      >
-        <option value="none" onChange={handleChange} disabled>
-          --Select Status--
-        </option>
-        <option value="Pending" onChange={handleChange}>
-          Pending
-        </option>
-        <option value="Completed" onChange={handleChange}>
-          Completed
-        </option>
-      </select>
+            <label htmlFor="content" className="block text-sm font-medium mb-2">
+              Content
+            </label>
 
-      <button
-        type="submit"
-        className="w-full bg-blue-500 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue"
-        onClick={handleClick}
-      >
-        Submit
-      </button>
-      <button
-       className='focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900 justify-center'
-      onClick={handleClear}
-      >
-        Clear
-      </button>
+          </div>
+          
+          <div className="mt-4 flex justify-center">
+            <textarea
+              type="text"
+              placeholder="Enter content"
+              className="w-full p-3 rounded-3xl bg-gray-800 focus:ring-gray-400-100 border border-gray-800"
+              rows={5}
+              id="content"
+              name="content"
+              onChange={(event) => {
+                setFormData({
+                  ...formData,
+                  content: event.target.value,
+                });
+              }}
+            />
+          </div>
+          <div className="mt-4 flex justify-center">
+            <label htmlFor="status" className="block text-sm font-medium mb-2">
+              Status
+            </label>
+
+          </div>
+          <div className="mt-4 flex justify-center">
+            <select
+              className="w-full p-3 rounded-3xl bg-gray-800 focus:ring-gray-400-100 border border-gray-800"
+              id="status"
+              name="status"
+              value={formData.status}
+              onChange={(event) => {
+                setFormData({
+                  ...formData,
+                  status: event.target.value,
+                });
+              }}
+            >
+              <option>--Select Status--</option>
+              <option value="Pending">Pending</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </div>
+          <div className="mt-4 flex justify-center">
+            <button
+              type="submit"
+              className="px-6 py-3 bg-sky-600 text-white rounded-3xl hover:bg-cyan-800 focus:outline-none focus:border-gray-700 focus:ring focus:ring-gray-200"
+            >
+              Submit
+            </button>
+            <button
+              className="ms-3 px-6 py-3 bg-red-700 text-white rounded-3xl hover:bg-red-500 focus:outline-none focus:border-gray-700 focus:ring focus:ring-gray-200"
+              type="reset"
+            >
+              Clear
+            </button>
+          </div>
+        </form>
     </div>
   </div>
 );
