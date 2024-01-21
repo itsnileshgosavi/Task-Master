@@ -36,7 +36,8 @@ const Login = () => {
   
         if (response.ok) {
           toast.success('User Logged In successfully');
-          router.push('/');
+          document.location.reload();
+          router.push('/your-tasks');
           
         } else {
           console.error('Failed to Login:', response.statusText);

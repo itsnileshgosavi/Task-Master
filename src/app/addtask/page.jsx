@@ -1,7 +1,9 @@
 "use client";
 
+import { connectDb } from "@/helper/db";
 import { useState } from "react";
 import { toast } from "react-toastify";
+connectDb();
 
 const AddTask = () => {
   const [formData, setFormData] = useState({

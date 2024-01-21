@@ -4,13 +4,13 @@ import bcrypt from "bcrypt";
 import Jwt  from "jsonwebtoken";
 import { connectDb } from "@/helper/db";
 
-connectDb();
+
 
 export async function POST(request) {
   const { email, password } = await request.json();
   
   try {
-    
+    await connectDb();
     const user = await User.findOne({ email });
     
     if (!user) {

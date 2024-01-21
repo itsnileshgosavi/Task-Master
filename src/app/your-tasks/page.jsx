@@ -25,27 +25,33 @@ const YourTasks = () => {
     getTasks();
   }, []);
 
-  const handleDeleteTask = async (taskId) => {
-    try {
-      const response = await fetch(`/api/tasks/${taskId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+  const handleDeleteTask = async (taskId, taskname) => {
+    const isConfirmed = window.confirm(
+      `Are you sure you want to delete ${taskname} task?`
+    );
 
-      if (response.ok) {
-        setTasks((prevTasks) =>
-          prevTasks.filter((task) => task._id !== taskId)
-        );
-        console.log("Task deleted successfully");
-        toast.success("Task deleted successfully");
-      } else {
-        console.log("Failed to delete task");
-        toast.error("Failed to delete");
+    if (isConfirmed) {
+      try {
+        const response = await fetch(`/api/tasks/${taskId}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (response.ok) {
+          setTasks((prevTasks) =>
+            prevTasks.filter((task) => task._id !== taskId)
+          );
+          console.log("Task deleted successfully");
+          toast.success("Task deleted successfully");
+        } else {
+          console.log("Failed to delete task");
+          toast.error("Failed to delete");
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
     }
   };
 
@@ -136,44 +142,46 @@ const YourTasks = () => {
         ) : (
           <ul className="space-y-4">
             {tasks.map((task) => (
-              <li key={task._id} className="bg-gray-600 p-4 rounded">
-                <h2 className="text-3xl font-bold mb-3">
-                  Tittle: {task.title}
-                </h2>
-                <p className="text-gray-200 my-5">Content :{task.content}</p>
-                <p
-                  className={`text-sm ${
-                    task.status === "Completed"
-                      ? "text-green-500"
-                      : "text-orange-500"
-                  }`}
+              <li key={task._id} className={`p-4 rounded ${
+                task.status === "Completed"
+                  ? "bg-green-500"
+                  : "bg-orange-400"
+              }`}>
+                <button
+                  type="button"
+                  className="shadow-lg hover:bg-gray-900 bg-gray-950 rounded-full w-9 h-9 flex justify-center items-center cursor-pointer"
+                  onClick={() => handleDeleteTask(task._id, task.title)}
                 >
+                  X
+                </button>
+                <h2 className="text-3xl font-bold mb-3">
+                  {task.title}
+                </h2>
+                <p className="text-gray-200 my-5">{task.content}</p>
+                <p>
                   Status: {task.status}
                 </p>
                 <p className="text-sm text-gray-100">
                   Added on: {formatDate(task.addedDate)}
                 </p>
-                <button
-                  type="button"
-                  className="focus:outline-none text-white bg-orange-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                  onClick={() => handleDeleteTask(task._id)}
-                >
-                  Delete
-                </button>
-                <button
+
+                {task.status=="Completed" ? (
+                    <button
+                    type="button"
+                    className="focus:outline-none text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-900"
+                    onClick={() => markPending(task._id)}
+                  >
+                    Mark as Pending
+                  </button>
+                ):(<button
                   type="button"
                   className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-900"
                   onClick={() => markCompleted(task._id)}
                 >
                   Mark as Completed
-                </button>
-                <button
-                  type="button"
-                  className="focus:outline-none text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-900"
-                  onClick={() => markPending(task._id)}
-                >
-                  Mark as Pending
-                </button>
+                </button>)}
+                
+                
               </li>
             ))}
           </ul>

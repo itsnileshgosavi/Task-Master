@@ -1,8 +1,13 @@
 import mongoose from "mongoose"
-// import { User } from "../models/user";
 
 
+const config = {
+    isConnected : 0,
+};
 export const connectDb =async()=>{
+    if(config.isConnected){
+        return;
+    }
     try{
         const uri = process.env.MONGO_DB_URL;
       const { connection }= await mongoose.connect(uri, {
@@ -10,19 +15,9 @@ export const connectDb =async()=>{
         });
         
         console.log("db connected");
-        // console.log(connection);
-        // const uuser = new User({
-        //     name: "test name",
-        //     email: "testing@test.com",
-        //     password:"testingpasword",
-        //     about: "this is test about",
-        //     profile_picture: "https://picsum.photos/seed/picsum/200/300",
-            
-        // });
-        
-        // await uuser.save();
-        
-        // console.log("user is created");
+        console.log(connection.readyState);
+        config.isConnected= connection.readyState;
+      
     }catch(error){
         console.log("something went wrong db connection failed");
         console.log(error);

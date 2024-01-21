@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import { Task } from "@/models/task";
 import { NextResponse } from "next/server";
 import { getResponseMessage } from "@/helper/getResponseMessage";
+import { connectDb } from "@/helper/db";
 
 export async function GET(request) {
   try {
@@ -18,6 +19,7 @@ export async function GET(request) {
     }
 
     const user_Id = data.userID;
+    await connectDb();
     const userstasks = await Task.find({
       userID: user_Id
     });

@@ -1,7 +1,7 @@
 "use client"
 import Link from 'next/link';
 import UserContext from '@/app/context/userContext';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { logout } from '@/app/services/userServices';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
@@ -9,16 +9,30 @@ import { useRouter } from 'next/navigation';
 const Header = () => {
   const context = useContext(UserContext);
   const router = useRouter();
-  useEffect(() => {
-    
-    const timeoutId = setTimeout(() => {
-      
-      console.log(context)
-    }, 5000);
 
-   
-    return () => clearTimeout(timeoutId);
-  }, [context]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Function to check if the user is logged in based on the presence of a cookie
+  const checkLoggedInStatus = () => {
+    const token = getCookie('loginToken');
+    setIsLoggedIn(!!token); 
+   // Set isLoggedIn to true if the token is present, otherwise false
+  };
+  const getCookie = (name) => {
+    const cookies = document.cookie.split(';');
+    for (const cookie of cookies) {
+      const [cookieName, cookieValue] = cookie.split('=').map((c) => c.trim());
+      if (cookieName === name) {
+        return cookieValue;
+      }
+    }
+    return null;
+  };
+  
+  useEffect(() => {
+    checkLoggedInStatus();
+  }, []);
+ 
   
 
   const doLogout = async () => {

@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { connectDb } from "@/helper/db";
 
-connectDb();
+
 
 export async function GET(request) {
   const users = await User.find();
@@ -11,6 +11,7 @@ export async function GET(request) {
 }
 
 export async function POST(request) {
+  await connectDb();
   const { name, email, password, profile_picture } = await request.json();
 
   try {

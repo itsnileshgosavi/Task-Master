@@ -1,11 +1,14 @@
+import { connectDb } from "@/helper/db";
 import { getResponseMessage } from "@/helper/getResponseMessage";
 import { Task } from "@/models/task";
 import { NextResponse } from "next/server";
+
 
 export async function GET(request, { params }){
         const { taskId } = params;
         
         try {
+            await connectDb();
             const task= await Task.findById(taskId);
             return NextResponse.json(task);
             

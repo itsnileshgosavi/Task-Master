@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import { User } from "@/models/user";
+import { connectDb } from "@/helper/db";
+
 
 export async function GET(request) {
+  
   try {
+    
     const token = request.cookies.get("loginToken")?.value;
 
     if (!token) {
@@ -15,7 +19,7 @@ export async function GET(request) {
     if (!data || !data.userID) {
       return NextResponse.json({ error: "Invalid token data" }, { status: 401 });
     }
-
+    await connectDb();
     const user = await User.findById(data.userID).select("-password");
 
     if (!user) {

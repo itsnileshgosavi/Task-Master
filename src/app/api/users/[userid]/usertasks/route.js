@@ -3,6 +3,7 @@ import { getResponseMessage } from "@/helper/getResponseMessage";
 import { Task } from "@/models/task";
 import { NextResponse } from "next/server";
 import  jwt  from "jsonwebtoken";
+import { connectDb } from "@/helper/db";
 
 export async function GET(request, { params }){
     const token= request.cookies.get("loginToken")?.value;
@@ -10,6 +11,7 @@ export async function GET(request, { params }){
     console.log(data);
     try {
         const user_Id =data.userID;
+        await connectDb();
         const userstasks = await Task.find({
             userID:user_Id
         });
