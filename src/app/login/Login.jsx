@@ -49,10 +49,13 @@ const Login = () => {
       }
         
     };
-  return (
+  return (  
+      <div className="card">
+    <div className="hero-content flex-col lg:flex-row-reverse">
+      <div className="text-center lg:text-left"></div>
     <div className='flex flex-col items-center justify-center p-8 space-y-4 bg-gray-800 h-screen'>
-    <h1 className='text-6xl p-10 text-white'>Login</h1>
-
+    <h1 className='text-6xl p-10 text-white card-title'>Login</h1>
+    <div className="card-body">
     <label htmlFor='email' className='text-white'>
       Email
     </label>
@@ -78,21 +81,22 @@ const Login = () => {
     />
 
     <button
-      type='submit'
-      className='px-6 py-3 bg-sky-600 text-white rounded-3xl hover:bg-cyan-800 focus:outline-none focus:border-gray-700 focus:ring focus:ring-gray-200'
-      onClick={handleClick}
+      className='btn btn-primary px-6 py-3 text-white rounded-3xl  focus:outline-none focus:border-gray-700 focus:ring focus:ring-gray-200'
+      onClick={()=>handleClick()}
     >
       Login
-    </button>
+    </button> 
+    
     <span><button
-      type='submit'
-      className='px-3 py-2 bg-green-400 text-white rounded-3xl hover:bg-gray-500 focus:outline-none focus:border-gray-700 focus:ring focus:ring-gray-200'
-      onClick={signupClick}
+      className='btn btn-secondary px-3 py-2 text-white rounded-3xl focus:outline-none focus:border-gray-700 focus:ring focus:ring-gray-200'
+      onClick={()=>signupClick()}
     >
       Sign Up Here
-    </button></span>
+    </button></span></div>
     
   </div>
+  </div>
+    </div>
   )
 };
 

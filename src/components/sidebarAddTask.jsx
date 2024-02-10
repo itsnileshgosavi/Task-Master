@@ -13,33 +13,6 @@ const AddTask = () => {
     status: "",
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-  if (name === 'status') {
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  } else {
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  }
-  console.log(formData);
-  };
-
-  const handleClear = () => {
-    setFormData({
-      title: '',
-      content: '',
-      status: '',
-    });
-    window.location.reload();
-    
-  };
-
   const handleClick = async () => {
     try {
       const response = await fetch("/api/tasks", {
@@ -63,14 +36,18 @@ const AddTask = () => {
   };
 
   return (
-    
-    <div className="flex h-10 bg-inherit-300">
-    <div className="w-72 p-8 bg-inherit-700 h-10">
-      <h1 className="text-3xl mb-4 text-white">Add Your Task</h1>
+    <div className="card  z-10">
+      <div className=" card shrink-0 w-full shadow-2xl p-8 h-10">
+        <div className="flex flex-col">
+        <h1 className="text-3xl mb-4 text-white mx-auto">Add Task</h1>
 
-      <form action="#!" onSubmit={handleClick}>
+        <form action="#!" onSubmit={handleClick} className="card-body">
           <div className="mt-4 flex justify-center">
-            <label htmlFor="title" className="block text-sm font-medium mb-2">
+            <label
+              htmlFor="title"
+              className="block text-sm font-medium mb-2"
+              required
+            >
               Title
             </label>
           </div>
@@ -79,9 +56,10 @@ const AddTask = () => {
             <input
               type="text"
               placeholder="Enter title"
-              className="w-full p-3 rounded-3xl bg-gray-800 focus:ring-gray-400-100 border border-gray-800"
+              className=" p-3 rounded-3xl bg-gray-800 focus:ring-gray-400-100 border border-gray-800"
               id="title"
               name="title"
+              required
               onChange={(event) => {
                 setFormData({
                   ...formData,
@@ -91,21 +69,20 @@ const AddTask = () => {
             />
           </div>
           <div className="mt-4 flex justify-center">
-
             <label htmlFor="content" className="block text-sm font-medium mb-2">
               Content
             </label>
-
           </div>
-          
+
           <div className="mt-4 flex justify-center">
             <textarea
               type="text"
               placeholder="Enter content"
-              className="w-full p-3 rounded-3xl bg-gray-800 focus:ring-gray-400-100 border border-gray-800"
+              className="p-3 rounded-3xl bg-gray-800 focus:ring-gray-400-100 border border-gray-800"
               rows={5}
               id="content"
               name="content"
+              required
               onChange={(event) => {
                 setFormData({
                   ...formData,
@@ -118,7 +95,6 @@ const AddTask = () => {
             <label htmlFor="status" className="block text-sm font-medium mb-2">
               Status
             </label>
-
           </div>
           <div className="mt-4 flex justify-center">
             <select
@@ -141,7 +117,7 @@ const AddTask = () => {
           <div className="mt-4 flex justify-center">
             <button
               type="submit"
-              className="px-6 py-3 bg-sky-600 text-white rounded-3xl hover:bg-cyan-800 focus:outline-none focus:border-gray-700 focus:ring focus:ring-gray-200"
+              className="btn px-6 py-3 bg-sky-600 text-white rounded-3xl hover:bg-cyan-800 focus:outline-none focus:border-gray-700 focus:ring focus:ring-gray-200"
             >
               Submit
             </button>
@@ -153,9 +129,10 @@ const AddTask = () => {
             </button>
           </div>
         </form>
+        </div>
+      </div>
     </div>
-  </div>
-);
+  );
 };
 
 export default AddTask;

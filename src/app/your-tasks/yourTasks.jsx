@@ -1,10 +1,8 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
-import UserContext from "@/app/context/userContext";
 import { toast } from "react-toastify";
 
-const ShowTasks = () => {
-  const context = useContext(UserContext);
+const YourTasks = () => {
   const [tasks, setTasks] = useState([]);
 
   const getTasks = async () => {
@@ -27,9 +25,9 @@ const ShowTasks = () => {
     getTasks();
   }, []);
 
-  const handleDeleteTask = async (taskId) => {
+  const handleDeleteTask = async (taskId, taskname) => {
     const isConfirmed = window.confirm(
-      "Are you sure you want to delete this task?"
+      `Are you sure you want to delete ${taskname} task?`
     );
 
     if (isConfirmed) {
@@ -127,26 +125,25 @@ const ShowTasks = () => {
   };
 
   return (
-    <div className="flex-col md:flex-row -z-50">
-      <div className="card z-0 ">
-        <div className="flex justify-center text-3xl">
-        <h2>Your Tasks</h2>
+    <div className="hero min-h-screen bg-base-200 -z-50">
+      <div className="flex-col flex flex-wrap md:flex-row ">
+        <div className="m-5">
+          <h1 className="text-3xl font-bold">Your Tasks ({tasks.length})</h1>
 
-        </div>
-      <div className="card-body z-0">
+          <div className="flex flex-wrap">
             {tasks.length === 0 ? (
               <p>Looks like you don't have any tasks.</p>
             ) : (
-              <ul className="">
+              <ul className="flex flex-wrap container overflow-auto">
                 {tasks.map((task) => (
                   <div
-                    className={`card z-0 shrink-0 w-full max-w-sm shadow-2xl  my-5 ${
+                    className={`container rounded-xl shrink-0 w-full max-w-sm shadow-2xl flex flex-wrap my-5 break-words mx-auto ${
                       task.status === "Completed"
                         ? "bg-lime-900"
                         : "bg-slate-900"
                     }`}
                   >
-                    <li key={task._id} className={`card-body z-0 w-auto m-7 p-5`}>
+                    <li key={task._id} className={`card-body flex break-words flex-wrap w-auto m-7 p-5`}>
                       <button
                         type="button"
                         className="shadow-lg hover:bg-gray-600 bg-gray-950 rounded-full w-9 h-9 flex justify-center items-center cursor-pointer"
@@ -154,10 +151,10 @@ const ShowTasks = () => {
                       >
                         X
                       </button>
-                      <h2 className="text-3xl font-bold my-3 mx-auto">
+                      <h2 className="text-3xl font-bold my-3 mx-auto flex-wrap">
                         {task.title}
                       </h2>
-                      <p className="text-lg tarttext-gray-200 my-10 mx-auto">
+                      <p className="text-lg text-gray-200 my-10 h-auto whitespace-normal">
                         {task.content}
                       </p>
                       <p className="text-xs text-gray-300 text-center">
@@ -194,9 +191,10 @@ const ShowTasks = () => {
               </ul>
             )}
           </div>
+        </div>
       </div>
     </div>
   );
 };
 
-export default ShowTasks;
+export default YourTasks;
