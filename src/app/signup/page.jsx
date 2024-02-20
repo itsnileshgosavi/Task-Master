@@ -1,17 +1,16 @@
-'use client'
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 import { toast } from "react-toastify";
-import { useRouter } from 'next/navigation';
-
+import { useRouter } from "next/navigation";
 
 const RegisterUser = () => {
-  const router=useRouter();
+  const router = useRouter();
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    profile_picture: '',
+    name: "",
+    email: "",
+    password: "",
+    profile_picture: "",
   });
 
   const handleChange = (e) => {
@@ -23,88 +22,92 @@ const RegisterUser = () => {
 
   const handleRegister = async () => {
     try {
-      const response = await fetch('/api/users', {
-        method: 'POST',
+      const response = await fetch("/api/users", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
 
       if (response.ok) {
-        toast.success('User registered successfully');
+        toast.success("User registered successfully");
         router.push("/login");
-        
       } else {
-        console.error('Failed to register user:', response.statusText);
-        toast.error("Failed to register", error.message)
+        console.error("Failed to register user:", response.statusText);
+        toast.error("Failed to register", error.message);
       }
     } catch (error) {
-      console.error('Error registering user:', error.message);
-      toast.error("failed",error.message);
+      console.error("Error registering user:", error.message);
+      toast.error("failed", error.message);
     }
   };
 
+  const loginClick=()=>{
+    router.push("/login");
+  }
+
   return (
-    <div className='flex flex-col items-center justify-center p-8 space-y-4 bg-gray-800 h-screen'>
-      <h1 className='text-6xl p-10 text-white'>Sign UP</h1>
-    <label htmlFor='name' className='text-white'>
-      Name
-    </label>
-    <input
-      type='text'
-      placeholder='Enter name'
-      className='px-4 py-2 bg-gray-50 text-black rounded-md'
-      id='name'
-      name='name'
-      onChange={handleChange}
-    />
-
-    <label htmlFor='email' className='text-white'>
-      Email
-    </label>
-    <input
-      type='email'
-      placeholder='Enter email'
-      className='px-4 py-2 bg-gray-50 text-black rounded-md'
-      id='email'
-      name='email'
-      onChange={handleChange}
-    />
-
-    <label htmlFor='password' className='text-white'>
-      Password
-    </label>
-    <input
-      type='password'
-      placeholder='Enter password'
-      className='px-4 py-2 bg-gray-50 text-black rounded-md'
-      id='password'
-      name='password'
-      onChange={handleChange}
-    />
-
-    <label htmlFor='profile_picture' className='text-white'>
-      Profile Picture
-    </label>
-    <input
-      type='text'
-      placeholder='Enter profile picture URL'
-      className='px-4 py-2 bg-gray-50 text-black rounded-lg'
-      id='profile_picture'
-      name='profile_picture'
-      onChange={handleChange}
-    />
-
-    <button
-      type='submit'
-      className='px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-gray-500 focus:outline-none focus:border-gray-700 focus:ring focus:ring-gray-200'
-      onClick={handleRegister}
-    >
-      Register
-    </button>
-    
-  </div>
+    <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-slate-800 mx-auto h-full my-10">
+      <div className="card-body">
+      <div className="form-control">
+          <label className="label">
+            <span className="label-text">Name</span>
+          </label>
+          <input
+            type="Name"
+            placeholder="Enter your name"
+            className="input input-bordered"
+            onChange={(event) => {
+              setFormData({
+                ...formData,
+                name: event.target.value,
+              });
+            }}
+            required
+          />
+        </div>
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Email</span>
+          </label>
+          <input
+            type="email"
+            placeholder="email"
+            className="input input-bordered"
+            onChange={(event) => {
+              setFormData({
+                ...formData,
+                email: event.target.value,
+              });
+            }}
+            required
+          />
+        </div>
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Password</span>
+          </label>
+          <input
+            type="password"
+            placeholder="password"
+            className="input input-bordered"
+            onChange={(event) => {
+              setFormData({
+                ...formData,
+                password: event.target.value,
+              });
+            }}
+            required
+          />
+         
+        </div>
+        <div className="form-control mt-6">
+          <button className="btn btn-primary" onClick={()=>handleRegister()}>Sign UP</button>
+          <button className="btn btn-secondary my-5" onClick={()=>loginClick()}>Login Instead?</button>
+        </div>
+      </div>
+    </div>
   );
 };
 

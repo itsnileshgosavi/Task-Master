@@ -1,103 +1,98 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react'
-import { toast } from 'react-toastify';
-import { useRouter } from 'next/navigation';
-
-
-
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const Login = () => {
   const router = useRouter();
-    const [loginData, setLoginData] = useState({
-        email:"",
-        password:"",
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    setLoginData({
+      ...loginData,
+      [e.target.name]: e.target.value,
     });
-    
-    const handleChange=(e)=>{
-          setLoginData ({
-             ...loginData,
-             [e.target.name]: e.target.value,
-          });
-    };
-    const signupClick=()=>{
-        router.push('/signup');
-    };
-      
-    const handleClick= async ()=>{
-      try {
-        const response = await fetch('/api/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(loginData),
-        });
-  
-        if (response.ok) {
-          toast.success('User Logged In successfully');
-          document.location.reload();
-          router.push('/your-tasks');
-          
-        } else {
-          console.error('Failed to Login:', response.statusText);
-          toast.error("Invalid email or Password")
-        }
-      } catch (error) {
-        console.error('Error logging in user:', error.message);
-        toast.error("failed");
+  };
+  const signupClick = () => {
+    router.push("/signup");
+  };
+
+  const handleClick = async () => {
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginData),
+      });
+
+      if (response.ok) {
+        toast.success("User Logged In successfully");
+        document.location.reload();
+        router.push("/your-tasks");
+      } else {
+        console.error("Failed to Login:", response.statusText);
+        toast.error("Invalid email or Password");
       }
-        
-    };
-  return (  
-      <div className="card">
-    <div className="hero-content flex-col lg:flex-row-reverse">
-      <div className="text-center lg:text-left"></div>
-    <div className='flex flex-col items-center justify-center p-8 space-y-4 bg-gray-800 h-screen'>
-    <h1 className='text-6xl p-10 text-white card-title'>Login</h1>
+    } catch (error) {
+      console.error("Error logging in user:", error.message);
+      toast.error("failed");
+    }
+  };
+  return (
+    <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-slate-800 mx-auto h-full border border-white my-10">
     <div className="card-body">
-    <label htmlFor='email' className='text-white'>
-      Email
-    </label>
-    <input
-      type='email'
-      placeholder='Enter email'
-      className='px-4 py-2 bg-gray-50 text-black rounded-md'
-      id='email'
-      name='email'
-      onChange={handleChange}
-    />
-
-    <label htmlFor='password' className='text-white'>
-      Password
-    </label>
-    <input
-      type='password'
-      placeholder='Enter password'
-      className='px-4 py-2 bg-gray-50 text-black rounded-md'
-      id='password'
-      name='password'
-      onChange={handleChange}
-    />
-
-    <button
-      className='btn btn-primary px-6 py-3 text-white rounded-3xl  focus:outline-none focus:border-gray-700 focus:ring focus:ring-gray-200'
-      onClick={()=>handleClick()}
-    >
-      Login
-    </button> 
-    
-    <span><button
-      className='btn btn-secondary px-3 py-2 text-white rounded-3xl focus:outline-none focus:border-gray-700 focus:ring focus:ring-gray-200'
-      onClick={()=>signupClick()}
-    >
-      Sign Up Here
-    </button></span></div>
-    
-  </div>
-  </div>
+      <div className="form-control">
+        <label className="label">
+          <span className="label-text">Email</span>
+        </label>
+        <input
+          type="email"
+          placeholder="enter your email here"
+          className="input input-bordered"
+          onChange={(event) => {
+            setLoginData({
+              ...loginData,
+              email: event.target.value,
+            });
+          }}
+          required
+        />
+      </div>
+      <div className="form-control">
+        <label className="label">
+          <span className="label-text">Password</span>
+        </label>
+        <input
+          type="password"
+          placeholder="enter your password here"
+          className="input input-bordered"
+          onChange={(event) => {
+            setLoginData({
+              ...loginData,
+              password: event.target.value,
+            });
+          }}
+          required
+        />
+        <label className="label">
+          <a href="#" className="label-text-alt link link-hover">
+            Forgot password?
+          </a>
+        </label>
+      </div>
+      <div className="form-control mt-6">
+        <button className="btn btn-primary" onClick={handleClick}>Login</button>
+        <button className="btn btn-secondary my-5" onClick={signupClick}>Sign Up</button>
+      </div>
     </div>
-  )
+  </div>
+  );
 };
 
 export default Login;
