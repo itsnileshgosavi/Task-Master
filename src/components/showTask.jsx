@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 const ShowTasks = () => {
   const context = useContext(UserContext);
   const [tasks, setTasks] = useState([]);
+  const [filter, setFilter] = useState("all");
 
   const getTasks = async () => {
     try {
@@ -126,6 +127,16 @@ const ShowTasks = () => {
     return new Date(dateString).toLocaleDateString("en-US", options);
   };
 
+  // Function to handle filter change
+  const handleFilterChange = (e) => {
+    setFilter(e.target.value);
+  };
+   // Function to handle filter change
+  const filteredTasks = tasks.filter((task) => {
+    if (filter === "all") return true;
+    return task.status === filter;
+  });
+
   return (
     <div className="flex-col md:flex-row -z-50">
       <div className="card z-0 ">
@@ -134,11 +145,20 @@ const ShowTasks = () => {
 
         </div>
       <div className="card-body z-0">
-            {tasks.length === 0 ? (
+      <select
+            value={filter}
+            onChange={handleFilterChange}
+            className="mb-4 rounded-lg border border-gray-300 p-2"
+          >
+            <option value="all">All Tasks</option>
+            <option value="Pending">Pending Tasks</option>
+            <option value="Completed">Completed Tasks</option>
+          </select>
+            {filteredTasks.length === 0 ? (
               <p>Looks like you don't have any tasks.</p>
             ) : (
               <ul className="">
-                {tasks.map((task) => (
+                {filteredTasks.map((task) => (
                   <div
                     className={`card z-0 shrink-0 w-full max-w-sm shadow-2xl  my-5 ${
                       task.status === "Completed"
