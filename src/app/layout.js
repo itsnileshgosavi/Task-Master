@@ -5,6 +5,8 @@ import Footer from "@/components/footer";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UserProvider from "./context/userProvider";
+import { Suspense } from "react";
+import Loading from "./loading/loading";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,9 +20,14 @@ export default function RootLayout({ children }) {
     <html lang="en" data-theme="halloween">
       <body className={inter.className}>
         <UserProvider>
+          
+          <Suspense fallback={<Loading/>}>
           <Header />
           {children}
           <Footer />
+          </Suspense>
+          
+          
           <ToastContainer
             position="top-center"
             autoClose={3000}
