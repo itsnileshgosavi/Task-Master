@@ -1,10 +1,13 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const YourTasks = () => {
   const [tasks, setTasks] = useState([]);
   const [filter, setFilter] = useState("all");
+  const [taskToDelete, setTaskToDelete] = useState(null);
+
+ 
 
   const getTasks = async () => {
     try {
@@ -26,33 +29,27 @@ const YourTasks = () => {
     getTasks();
   }, []);
 
-  const handleDeleteTask = async (taskId, taskname) => {
-    const isConfirmed = window.confirm(
-      `Are you sure you want to delete ${taskname} task?`
-    );
+  const handleDeleteTask = async (taskId) => {
+    try {
+      const response = await fetch(`/api/tasks/${taskId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-    if (isConfirmed) {
-      try {
-        const response = await fetch(`/api/tasks/${taskId}`, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (response.ok) {
-          setTasks((prevTasks) =>
-            prevTasks.filter((task) => task._id !== taskId)
-          );
-          console.log("Task deleted successfully");
-          toast.success("Task deleted successfully");
-        } else {
-          console.log("Failed to delete task");
-          toast.error("Failed to delete");
-        }
-      } catch (error) {
-        console.error(error);
+      if (response.ok) {
+        setTasks((prevTasks) =>
+          prevTasks.filter((task) => task._id !== taskId)
+        );
+        console.log("Task deleted successfully");
+        toast.success("Task deleted !!");
+      } else {
+        console.log("Failed to Delete Task");
+        toast.error("Failed to Delete");
       }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -154,7 +151,7 @@ const YourTasks = () => {
           {filteredTasks.length === 0 ? (
             <p>Looks like you don't have any tasks.</p>
           ) : (
-            <ul className="flex flex-col md:flex-row">
+            <ul className="flex flex-col md:flex-row md:flex-wrap">
               {filteredTasks.map((task) => (
                 <div
                   className={`container rounded-xl shrink-0 w-full max-w-sm shadow-2xl flex flex-wrap my-5 break-words mx-5 ${
@@ -168,7 +165,9 @@ const YourTasks = () => {
                     <button
                       type="button"
                       className="shadow-lg hover:bg-gray-600 bg-gray-950 rounded-full w-9 h-9 flex justify-center items-center cursor-pointer"
-                      onClick={() => handleDeleteTask(task._id, task.title)}
+                      onClick={() =>{setTaskToDelete(task._id);
+                        document.getElementById("my_modal_1").showModal();}
+                      }
                     >
                       X
                     </button>
@@ -213,6 +212,22 @@ const YourTasks = () => {
           )}
         </div>
       </div>
+      <dialog id="my_modal_1" className="modal">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg text-red-600">Warning !!</h3>
+          <p className="py-4">
+            Are you sure you want to Delete this task?
+          </p>
+          <div className="modal-action">
+            <form method="dialog">
+              {/* if there is a button in form, it will close the modal */}
+
+              <button className="btn">NO</button>
+              <button className="btn btn-warning" onClick={()=>handleDeleteTask(taskToDelete)}>YES</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
     </div>
   );
 };

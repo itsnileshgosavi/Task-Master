@@ -80,7 +80,8 @@ const Header = () => {
               </Link>
               <button
                 className="ms-1 px-3 py-0 bg-red-700 text-white rounded-3xl hover:bg-red-500 focus:outline-none focus:border-gray-700 focus:ring focus:ring-gray-200"
-                onClick={doLogout}
+                onClick={() =>{document.getElementById("my_modal").showModal();}
+                 }
               >
                 Logout
               </button>
@@ -133,8 +134,9 @@ const Header = () => {
                 </li>
                 <li>
                 <div
-                 className="ms-1 px-2 py-0 bg-red-700 text-white rounded-3xl hover:bg-red-500 focus:outline-none focus:border-gray-700 focus:ring focus:ring-gray-200"
-                   onClick={doLogout}
+                 className="ms-1 px-2 py-0 btn bg-red-700 text-white rounded-3xl hover:bg-red-500 focus:outline-none focus:border-gray-700 focus:ring focus:ring-gray-200"
+                 onClick={() =>{document.getElementById("my_modal").showModal();}
+                }
                  >
                    Logout
                 </div>
@@ -176,28 +178,25 @@ const Header = () => {
             </ul>
           </div>
         </div>
-          // <div className="dropdown md:hidden">
-          //   <div tabIndex={0} role="button" className="btn m-1">
-          //     &#8801;
-          //   </div>
-          //   <ul
-          //     tabIndex={0}
-          //     className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
-          //   >
-          //     <li>
-          //       <Link href="/login" className="hover:text-yellow-800">
-          //         Login
-          //       </Link>
-          //     </li>
-          //     <li>
-          //       <Link href="/signup" className="hover:text-yellow-600">
-          //         Sign Up
-          //       </Link>
-          //     </li>
-          //   </ul>
-          // </div>
+          
         )}
       </nav>
+      <dialog id="my_modal" className="modal max-w-screen-sm md:max-w-fit">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg text-red-600">Confirm Logout?</h3>
+          <p className="py-4">
+            Are you sure you want to logout?
+          </p>
+          <div className="modal-action">
+            <form method="dialog">
+             
+
+              <button className="btn">NO</button>
+              <button className="btn btn-warning m-3" onClick={()=>doLogout()}>YES</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
     </header>
   );
 };

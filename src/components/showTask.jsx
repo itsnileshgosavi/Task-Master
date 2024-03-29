@@ -7,6 +7,7 @@ const ShowTasks = () => {
   const context = useContext(UserContext);
   const [tasks, setTasks] = useState([]);
   const [filter, setFilter] = useState("all");
+  const [taskToDelete, setTaskToDelete] = useState(null);
 
   const getTasks = async () => {
     try {
@@ -29,11 +30,7 @@ const ShowTasks = () => {
   }, []);
 
   const handleDeleteTask = async (taskId) => {
-    const isConfirmed = window.confirm(
-      "Are you sure you want to delete this task?"
-    );
-
-    if (isConfirmed) {
+   
       try {
         const response = await fetch(`/api/tasks/${taskId}`, {
           method: "DELETE",
@@ -55,7 +52,6 @@ const ShowTasks = () => {
       } catch (error) {
         console.error(error);
       }
-    }
   };
 
   const markCompleted = async (taskId) => {
@@ -170,7 +166,8 @@ const ShowTasks = () => {
                       <button
                         type="button"
                         className="shadow-lg hover:bg-gray-600 bg-gray-950 rounded-full w-9 h-9 flex justify-center items-center cursor-pointer"
-                        onClick={() => handleDeleteTask(task._id, task.title)}
+                        onClick={() =>{setTaskToDelete(task._id);
+                            document.getElementById("my_modal_1").showModal();}}
                       >
                         X
                       </button>
@@ -215,6 +212,22 @@ const ShowTasks = () => {
             )}
           </div>
       </div>
+      <dialog id="my_modal_1" className="modal">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg text-red-600">Warning !!</h3>
+          <p className="py-4">
+            Are you sure you want to Delete this task?
+          </p>
+          <div className="modal-action">
+            <form method="dialog">
+              {/* if there is a button in form, it will close the modal */}
+
+              <button className="btn">NO</button>
+              <button className="btn btn-warning" onClick={()=>handleDeleteTask(taskToDelete)}>YES</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
     </div>
   );
 };
