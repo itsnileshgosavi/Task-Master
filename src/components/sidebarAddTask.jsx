@@ -36,13 +36,13 @@ const AddTask = () => {
   };
 
   return (
-    <div className="card  z-10">
-      <div className=" card shrink-0 w-full shadow-2xl p-8 h-10">
+    
+      <div className="shrink-0 w-full shadow-2xl p-8 h-10">
         <div className="flex flex-col">
         <h1 className="text-3xl mb-4 text-white mx-auto">Add Task</h1>
 
         <form action="#!" onSubmit={handleClick} className="card-body">
-          <div className="mt-4 flex justify-center">
+          {/* <div className="mt-4 flex justify-center">
             <label
               htmlFor="title"
               className="block text-sm font-medium mb-2"
@@ -50,12 +50,12 @@ const AddTask = () => {
             >
               Title
             </label>
-          </div>
+          </div> */}
 
-          <div className="mt-4 flex justify-center">
+          
             <input
               type="text"
-              placeholder="Enter title"
+              placeholder="Enter Title of the Task"
               className=" p-3 rounded-3xl bg-gray-800 focus:ring-gray-400-100 border border-gray-800"
               id="title"
               name="title"
@@ -67,17 +67,17 @@ const AddTask = () => {
                 });
               }}
             />
-          </div>
-          <div className="mt-4 flex justify-center">
+          
+          {/* <div className="mt-4 flex justify-center">
             <label htmlFor="content" className="block text-sm font-medium mb-2">
               Content
             </label>
-          </div>
+          </div> */}
 
-          <div className="mt-4 flex justify-center">
+          
             <textarea
               type="text"
-              placeholder="Enter content"
+              placeholder="Enter Description"
               className="p-3 rounded-3xl bg-gray-800 focus:ring-gray-400-100 border border-gray-800"
               rows={5}
               id="content"
@@ -90,13 +90,13 @@ const AddTask = () => {
                 });
               }}
             />
-          </div>
-          <div className="mt-4 flex justify-center">
+          
+          {/* <div className="mt-4 flex justify-center">
             <label htmlFor="status" className="block text-sm font-medium mb-2">
               Status
             </label>
-          </div>
-          <div className="mt-4 flex justify-center">
+          </div> */}
+          
             <select
               className="w-full p-3 rounded-3xl bg-gray-800 focus:ring-gray-400-100 border border-gray-800"
               id="status"
@@ -113,8 +113,8 @@ const AddTask = () => {
               <option value="Pending">Pending</option>
               <option value="Completed">Completed</option>
             </select>
-          </div>
-          <div className="mt-4 flex justify-center">
+         
+          
             <button
               type="submit"
               className="btn px-6 py-3 bg-sky-600 text-white rounded-3xl hover:bg-cyan-800 focus:outline-none focus:border-gray-700 focus:ring focus:ring-gray-200"
@@ -127,11 +127,11 @@ const AddTask = () => {
             >
               Clear
             </button>
-          </div>
+          
         </form>
         </div>
       </div>
-    </div>
+    
   );
 };
 

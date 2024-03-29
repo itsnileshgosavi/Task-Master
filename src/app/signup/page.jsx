@@ -13,12 +13,7 @@ const RegisterUser = () => {
     profile_picture: "",
   });
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+
 
   const handleRegister = async () => {
     try {
@@ -50,6 +45,7 @@ const RegisterUser = () => {
   return (
     <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-slate-800 mx-auto h-full my-10">
       <div className="card-body">
+      <h2 className="text-3xl mx-auto text-primary">Sign Up</h2>
       <div className="form-control">
           <label className="label">
             <span className="label-text">Name</span>

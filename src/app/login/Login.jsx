@@ -11,12 +11,7 @@ const Login = () => {
     password: "",
   });
 
-  const handleChange = (e) => {
-    setLoginData({
-      ...loginData,
-      [e.target.name]: e.target.value,
-    });
-  };
+ 
   const signupClick = () => {
     router.push("/signup");
   };
@@ -46,14 +41,16 @@ const Login = () => {
   };
   return (
     <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-slate-800 mx-auto h-full border border-white my-10">
-    <div className="card-body">
+    <form className="card-body">
+
+        <h2 className="text-3xl mx-auto text-primary">Login</h2>
       <div className="form-control">
         <label className="label">
           <span className="label-text">Email</span>
         </label>
         <input
           type="email"
-          placeholder="enter your email here"
+          placeholder="Enter Your Email*"
           className="input input-bordered"
           onChange={(event) => {
             setLoginData({
@@ -70,7 +67,7 @@ const Login = () => {
         </label>
         <input
           type="password"
-          placeholder="enter your password here"
+          placeholder="Enter Your Password*"
           className="input input-bordered"
           onChange={(event) => {
             setLoginData({
@@ -90,7 +87,7 @@ const Login = () => {
         <button className="btn btn-primary" onClick={handleClick}>Login</button>
         <button className="btn btn-secondary my-5" onClick={signupClick}>Sign Up</button>
       </div>
-    </div>
+    </form>
   </div>
   );
 };
