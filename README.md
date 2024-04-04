@@ -21,12 +21,12 @@ This is a simple task manager application built with [React](https://reactjs.org
   - JavaScript
  
     
--**Backend**:
+- **Backend**:
  - next.js
  - JWT
  - Bcrypt
  
--**DBMS**:
+- **DBMS**:
   - MongoDB
   
 ## Setup
