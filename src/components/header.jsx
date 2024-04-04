@@ -134,7 +134,7 @@ const Header = () => {
                 </li>
                 <li>
                 <div
-                 className="ms-1 px-2 py-0 btn bg-red-700 text-white rounded-3xl hover:bg-red-500 focus:outline-none focus:border-gray-700 focus:ring focus:ring-gray-200"
+                 className="block ms-1 px-2 py-0 btn bg-red-700 text-white rounded-3xl hover:bg-red-500 focus:outline-none focus:border-gray-700 focus:ring focus:ring-gray-200"
                  onClick={() =>{document.getElementById("my_modal").showModal();}
                 }
                  >
@@ -181,8 +181,8 @@ const Header = () => {
           
         )}
       </nav>
-      <dialog id="my_modal" className="modal max-w-screen-sm md:max-w-fit">
-        <div className="modal-box">
+      <dialog id="my_modal" className="modal">
+        <div className="modal-box absolute top-0">
           <h3 className="font-bold text-lg text-red-600">Confirm Logout?</h3>
           <p className="py-4">
             Are you sure you want to logout?
