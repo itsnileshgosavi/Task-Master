@@ -31,15 +31,10 @@ This is a simple task manager application built with [React](https://reactjs.org
   
 ## Setup
 
-To run this project locally, follow these steps:
-
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/itsnileshgosavi/Task-Manager.git
-    ```
 
 ## Getting Started
+
+To run this project locally, follow these steps:
 
 1. Clone the repository:
 
@@ -86,10 +81,14 @@ Contributions are welcome! If you'd like to contribute to this project, please f
 5. Push to the branch (`git push origin feature/your-feature-name`).
 6. Create a new pull request.
 
+## Deployment
+
+This project is deployed here: https://task-manager.nileshgosavi.tech
+
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-```
+
 
 
 
