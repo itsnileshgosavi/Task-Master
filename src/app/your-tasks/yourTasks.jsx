@@ -6,7 +6,11 @@ const YourTasks = () => {
   const [tasks, setTasks] = useState([]);
   const [filter, setFilter] = useState("all");
   const [taskToDelete, setTaskToDelete] = useState(null);
-
+  const [editTask, setEditTask] = useState(null);
+  const [editedTitle, setEditedTitle] = useState("");
+  const [editedContent, setEditedContent] = useState("");
+  const [editedStatus, setEditedStatus] = useState("");
+  const [taskToEdit, setTaskToEdit] = useState(null);
  
 
   const getTasks = async () => {
@@ -132,6 +136,49 @@ const YourTasks = () => {
     return task.status === filter;
   });
 
+  //edit task function
+
+  const handleEditTask = (task) => {
+    setEditTask(task);
+    setEditedTitle(task.title);
+    setEditedContent(task.content);
+    setEditedStatus(task.status);
+    setTaskToEdit(task._id);
+  };
+
+  // function to save changes in db 
+
+  const handleSaveEdit =async (taskId) => {
+    try {
+      const updatedTaskData =  { ...editTask, title: editedTitle, content: editedContent, status: editedStatus };
+      console.log(updatedTaskData);
+      const response = await fetch(`/api/tasks/${taskId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedTaskData),
+      });
+      if (response.ok) {
+        console.log("Task Edited..");
+        toast.success("Task has been edited");
+        window.location.reload();
+      } else {
+        console.log("Failed to save edit");
+        toast.error("Something went wrong");
+      }
+      
+    } catch (error) {
+      console.error(error);
+    }
+    
+    // Clear edit state
+    setEditTask(null);
+    setEditedTitle("");
+    setEditedContent("");
+    setEditedStatus("");
+  };
+
   return (
     <div className="hero min-h-screen bg-base-200 -z-50">
       <div className="flex-col flex flex-wrap justify-center">
@@ -151,17 +198,18 @@ const YourTasks = () => {
           {filteredTasks.length === 0 ? (
             <p>Looks like you don't have any tasks.</p>
           ) : (
-            <ul className="flex flex-col md:flex-row md:flex-wrap">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 max-w-full">
               {filteredTasks.map((task) => (
                 <div
-                  className={`container rounded-xl shrink-0 w-full max-w-sm shadow-2xl flex flex-wrap my-5 break-words mx-5 ${
+                  className={`rounded-xl shrink-0  max-w-full shadow-2xl flex flex-wrap items-center justify-center w-full my-5 break-words mx-1 ${
                     task.status === "Completed" ? "bg-lime-900" : "bg-slate-900"
                   }`}
                 >
                   <li
                     key={task._id}
-                    className={`card-body flex break-words flex-wrap w-auto m-7 p-5`}
+                    className={`flex flex-col items-center justify-center break-words flex-wrap max-w-full m-3 p-2`}
                   >
+                    <div className="flex justify-between w-full max-w-full mx-1">
                     <button
                       type="button"
                       className="shadow-lg hover:bg-gray-600 bg-gray-950 rounded-full w-9 h-9 flex justify-center items-center cursor-pointer"
@@ -171,10 +219,20 @@ const YourTasks = () => {
                     >
                       X
                     </button>
-                    <h2 className="text-3xl font-bold my-3 mx-auto flex-wrap">
+                    <button
+                      type="button"
+                      className="shadow-lg hover:bg-gray-600 bg-gray-950 rounded-full w-9 h-9 flex justify-center items-center cursor-pointer"
+                      onClick={() =>{handleEditTask(task);
+                        document.getElementById("edit-modal").showModal();}
+                      }
+                    >
+                     edit
+                    </button>
+                    </div>
+                    <h2 className="text-3xl font-bold my-3 mx-auto flex-wrap max-w-full">
                       {task.title}
                     </h2>
-                    <p className="text-lg text-gray-200 my-10 h-auto whitespace-normal">
+                    <p className="text-lg text-gray-200 my-10 h-auto whitespace-normal max-w-full">
                       {task.content}
                     </p>
                     <p className="text-xs text-gray-300 text-center">
@@ -208,7 +266,7 @@ const YourTasks = () => {
                   </li>
                 </div>
               ))}
-            </ul>
+            </ul>      
           )}
         </div>
       </div>
@@ -224,6 +282,41 @@ const YourTasks = () => {
 
               <button className="btn">NO</button>
               <button className="btn btn-warning" onClick={()=>handleDeleteTask(taskToDelete)}>YES</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+      {/* edit task modal */}
+      <dialog id="edit-modal" className="modal">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg text-green-600"> Edit Task</h3>
+          <div className="flex flex-col space-y-4 items-center justify-center">
+              <label htmlFor="title" className="block text-sm font-medium mt-9">
+                Title
+              </label>
+            <input className="w-full p-3 rounded-3xl bg-gray-800 focus:ring-gray-400-100 border border-gray-800" value={editedTitle} onChange={(e) => setEditedTitle(e.target.value)} />
+            <label
+                htmlFor="content"
+                className="block text-sm font-medium mb-2"
+              >
+                Content
+              </label>
+            <textarea 
+            value={editedContent} 
+            onChange={(e) => setEditedContent(e.target.value)} 
+            className="w-full p-3 rounded-3xl bg-gray-800 focus:ring-gray-400-100 border border-gray-800" />
+            <select value={editedStatus} onChange={(e) => setEditedStatus(e.target.value)} className="w-1/2 p-3 rounded-3xl bg-gray-800 focus:ring-gray-400-100 border border-gray-800">
+              <option value="Pending">Pending</option>
+              <option value="Completed">Completed</option>
+            </select>
+          
+        </div>
+          <div className="modal-action">
+            <form method="dialog">
+              
+
+              <button className="btn">Cancel</button>
+              <button className="btn btn-info" onClick={()=>handleSaveEdit(taskToEdit)}>Save Changes</button>
             </form>
           </div>
         </div>

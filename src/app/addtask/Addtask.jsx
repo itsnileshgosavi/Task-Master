@@ -40,6 +40,7 @@ const AddTask = () => {
       <div className=" border flex flex-col justify-center p-6 max-w-md rounded-xl shadow-lg space-x-4 mx-auto object-cover">
         <div className="flex justify-center">
           <img
+          className="h-20 w-16"
             src="https://cdn.iconscout.com/icon/premium/png-256-thumb/add-task-3912847-3242334.png"
             alt="image"
           />
