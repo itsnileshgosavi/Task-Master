@@ -22,9 +22,9 @@ This is a simple task manager application built with [React](https://reactjs.org
  
     
 - **Backend**:
- - next.js
- - JWT
- - Bcrypt
+   - next.js
+   - JWT
+   - Bcrypt
  
 - **DBMS**:
   - MongoDB
