@@ -221,12 +221,12 @@ const YourTasks = () => {
                     </button>
                     <button
                       type="button"
-                      className="shadow-lg hover:bg-gray-600 bg-gray-950 rounded-full w-9 h-9 flex justify-center items-center cursor-pointer"
+                      className="shadow-lg hover:bg-gray-600  rounded-full w-9 h-9 flex justify-center items-center cursor-pointer"
                       onClick={() =>{handleEditTask(task);
                         document.getElementById("edit-modal").showModal();}
                       }
                     >
-                     edit
+                     <img src="https://task-manager.nileshgosavi.tech/edit-icon.png" alt="edit icon" />
                     </button>
                     </div>
                     <h2 className="text-3xl font-bold my-3 mx-auto flex-wrap max-w-full">

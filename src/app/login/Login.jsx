@@ -3,9 +3,11 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import Loading from "../loading/loading";
 
 const Login = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -18,6 +20,7 @@ const Login = () => {
 
   const handleClick = async () => {
     try {
+      setLoading(true);
       const response = await fetch("/api/login", {
         method: "POST",
         headers: {
@@ -28,8 +31,9 @@ const Login = () => {
 
       if (response.ok) {
         toast.success("User Logged In successfully");
-        document.location.reload();
+      
         router.push("/your-tasks");
+        
       } else {
         console.error("Failed to Login:", response.statusText);
         toast.error("Invalid email or Password");
@@ -37,6 +41,12 @@ const Login = () => {
     } catch (error) {
       console.error("Error logging in user:", error.message);
       toast.error("failed");
+    } finally {
+      setLoading(false);
+      setTimeout(() => {
+        window.location.reload();
+      }, 5000);
+      
     }
   };
   return (
@@ -84,7 +94,7 @@ const Login = () => {
         </label>
       </div>
       <div className="form-control mt-6">
-        <button className="btn btn-primary" onClick={handleClick}>Login</button>
+        <button className="btn btn-primary" onClick={handleClick} disabled={loading}>{loading ? <Loading /> : 'Login'}</button>
         <button className="btn btn-secondary my-5" onClick={signupClick}>Sign Up</button>
       </div>
     </form>
