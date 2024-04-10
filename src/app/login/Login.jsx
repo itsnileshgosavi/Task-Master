@@ -50,7 +50,7 @@ const Login = () => {
       setLoading(false);
       setTimeout(() => {
         window.location.reload();
-      }, 5000);
+      }, 2000);
       
     }}
   };
@@ -100,7 +100,7 @@ const Login = () => {
       </div>
       <div className="form-control mt-6">
         <button className="btn btn-primary" onClick={handleClick} disabled={loading}>{loading ? <Loading /> : 'Login'}</button>
-        <button className="btn btn-secondary my-5" onClick={signupClick}>Sign Up</button>
+        <button className="btn btn-secondary my-5" onClick={signupClick}>New User? Sign Up</button>
       </div>
     </form>
   </div>

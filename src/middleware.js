@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 export function middleware(request) {
   const loginToken = request.cookies.get("loginToken")?.value;
 
-  // Allow access to login and signup pages
+  // Allow access to login and signup api
   if (
     request.nextUrl.pathname === "/api/login" ||
     request.nextUrl.pathname === "/api/users"
@@ -18,7 +18,7 @@ export function middleware(request) {
   // Redirect logged-in users trying to access login or signup pages
   if (loggedInUserNotAccessPath) {
     if (loginToken) {
-      return NextResponse.redirect(new URL("/profile/user", request.url));
+      return NextResponse.redirect(new URL("/", request.url));
     }
   } else {
     // Redirect users trying to access protected pages without logging in
@@ -31,7 +31,7 @@ export function middleware(request) {
           }
         );
       }
-      return NextResponse.redirect(new URL("/login", request.url));
+      return NextResponse.redirect(new URL("/signup", request.url));
     }
   }
 }
