@@ -19,6 +19,11 @@ const Login = () => {
   };
 
   const handleClick = async () => {
+    if(loginData.email.trim()==="" || loginData.password.trim()===""){
+      toast.error("Email or Password cannot be empty")
+      return;
+    }else{
+
     try {
       setLoading(true);
       const response = await fetch("/api/login", {
@@ -47,7 +52,7 @@ const Login = () => {
         window.location.reload();
       }, 5000);
       
-    }
+    }}
   };
   return (
     <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-slate-800 mx-auto h-full border border-white my-10">
