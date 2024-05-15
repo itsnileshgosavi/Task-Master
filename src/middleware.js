@@ -6,7 +6,8 @@ export function middleware(request) {
   // Allow access to login and signup api
   if (
     request.nextUrl.pathname === "/api/login" ||
-    request.nextUrl.pathname === "/api/users"
+    request.nextUrl.pathname === "/api/users" ||
+    request.nextUrl.pathname === "/api/auth/:path*"  
   ) {
     return;
   }
