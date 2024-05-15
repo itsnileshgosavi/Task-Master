@@ -18,7 +18,7 @@ export function middleware(request) {
   // Redirect logged-in users trying to access login or signup pages
   if (loggedInUserNotAccessPath) {
     if (loginToken) {
-      return NextResponse.redirect(new URL("/", request.url));
+      return NextResponse.redirect(new URL("/your-tasks", request.url));
     }
   } else {
     // Redirect users trying to access protected pages without logging in
@@ -38,7 +38,6 @@ export function middleware(request) {
 
 export const config = {
   matcher: [
-    "/",
     "/addtask",
     "/signup",
     "/your-tasks",

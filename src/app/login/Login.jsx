@@ -55,7 +55,7 @@ const Login = () => {
     }}
   };
   return (
-    <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-slate-800 mx-auto h-full border border-white my-10">
+    <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-slate-500 dark:bg-slate-800 mx-auto h-full border border-white my-10">
     <form className="card-body">
 
         <h2 className="text-3xl mx-auto text-primary">Login</h2>
@@ -66,7 +66,7 @@ const Login = () => {
         <input
           type="email"
           placeholder="Enter Your Email*"
-          className="input input-bordered"
+          className="input input-bordered text-white"
           onChange={(event) => {
             setLoginData({
               ...loginData,
@@ -83,7 +83,7 @@ const Login = () => {
         <input
           type="password"
           placeholder="Enter Your Password*"
-          className="input input-bordered"
+          className="input input-bordered text-white"
           onChange={(event) => {
             setLoginData({
               ...loginData,
@@ -92,11 +92,11 @@ const Login = () => {
           }}
           required
         />
-        <label className="label">
+        {/* <label className="label">
           <a href="#" className="label-text-alt link link-hover">
             Forgot password?
           </a>
-        </label>
+        </label> */}
       </div>
       <div className="form-control mt-6">
         <button className="btn btn-primary" onClick={handleClick} disabled={loading}>{loading ? <Loading /> : 'Login'}</button>

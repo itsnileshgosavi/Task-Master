@@ -13,6 +13,7 @@ const RegisterUser = () => {
     email: "",
     password: "",
     profile_picture: "",
+    about:""
   });
 
   const handleRegister = async () => {
@@ -75,7 +76,7 @@ const RegisterUser = () => {
   };
 
   return (
-    <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-slate-800 mx-auto h-full my-10">
+    <div className="card shrink-0 w-full max-w-sm shadow-2xl dark:bg-slate-800 bg-slate-500 mx-auto h-full my-10">
       <div className="card-body">
         <h2 className="text-3xl mx-auto text-primary">Sign Up</h2>
         <div className="form-control">
@@ -85,7 +86,7 @@ const RegisterUser = () => {
           <input
             type="text"
             placeholder="Enter your name"
-            className="input input-bordered"
+            className="input input-bordered text-white"
             onChange={(event) => {
               setFormData({
                 ...formData,
@@ -102,11 +103,44 @@ const RegisterUser = () => {
           <input
             type="email"
             placeholder="email"
-            className="input input-bordered"
+            className="input input-bordered text-white"
             onChange={(event) => {
               setFormData({
                 ...formData,
                 email: event.target.value,
+              });
+            }}
+            required
+          />
+        </div>
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">About (Optional)</span>
+          </label>
+          <textarea
+            
+            className="input input-bordered text-white h-24"
+            onChange={(event) => {
+              setFormData({
+                ...formData,
+                about: event.target.value,
+              });
+            }}
+            
+          ></textarea>
+        </div>
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Profile Picture URL (Optional)</span>
+          </label>
+          <input
+            type="text"
+            placeholder="https://github.com/username.png"
+            className="input input-bordered text-white"
+            onChange={(event) => {
+              setFormData({
+                ...formData,
+                profile_picture: event.target.value,
               });
             }}
             required
@@ -119,7 +153,7 @@ const RegisterUser = () => {
           <input
             type="password"
             placeholder="password"
-            className="input input-bordered"
+            className="input input-bordered text-white"
             onChange={(event) => {
               setFormData({
                 ...formData,

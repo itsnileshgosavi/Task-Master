@@ -47,12 +47,12 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-slate-950 p-4 w-full">
+    <header className="bg-[#a9a8ac] dark:bg-slate-950 p-4 w-full">
       <nav className="flex items-center sticky justify-between">
         <div>
           <Link href="/">
-            <button className="text-white text-lg font-semibold hover:text-blue-500">
-              Task Manager
+            <button className="dark:text-white text-slate-800 text-lg font-semibold hover:text-blue-500">
+              TaskMaster
             </button>
           </Link>
         </div>
@@ -184,7 +184,7 @@ const Header = () => {
       <dialog id="my_modal" className="modal">
         <div className="modal-box absolute top-0">
           <h3 className="font-bold text-lg text-red-600">Confirm Logout?</h3>
-          <p className="py-4">
+          <p className="py-4 text-white">
             Are you sure you want to logout?
           </p>
           <div className="modal-action">
