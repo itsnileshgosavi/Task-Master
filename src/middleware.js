@@ -19,8 +19,11 @@ export async function middleware(request) {
 
   // Redirect logged-in users trying to access login or signup pages
   if (loggedInUserNotAccessPath) {
+    
     if (token) {
       return NextResponse.redirect(new URL('/', request.url));
+
+   
     }
   } else {
     // Redirect users trying to access protected pages without logging in
@@ -43,11 +46,13 @@ export async function middleware(request) {
 
 export const config = {
   matcher: [
+
     '/addtask',
     '/signup',
     '/your-tasks',
     '/login',
     '/profile/:path*',
+
   ],
 };
 

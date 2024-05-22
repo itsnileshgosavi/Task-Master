@@ -15,7 +15,8 @@ const Home = async () => {
   
   return (
     <>
-       <main className="h-screen">
+    
+    <main className="h-screen">
       <section className="flex justify-center flex-col text-center items-center h-full">
         <h1 className="text-2xl md:text-3xl lg:text-4xl text-purple-500 p-5">Welcome to TaskMaster - Your Ultimate Productivity Companion!</h1>
         <p className="text-blue-700 p-5 md:text-2xl">Unlock the full potential of your day with TaskMaster, the innovative task manager designed to help you organize, prioritize, and achieve your goals effortlessly. Whether you’re managing work projects, personal errands, or planning your future aspirations, TaskMaster is here to streamline your to-do list and keep you on track.</p>
