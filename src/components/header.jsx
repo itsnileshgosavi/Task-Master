@@ -1,9 +1,6 @@
 "use client";
 import Link from "next/link";
 
-import { useEffect, useState } from "react";
-
-import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
@@ -161,7 +158,7 @@ const Header = () => {
              
 
               <button className="btn">NO</button>
-              <button className="btn btn-warning m-3" onClick={()=>doLogout()}>YES</button>
+              <button className="btn btn-warning m-3" onClick={()=>signOut()}>YES</button>
             </form>
           </div>
         </div>
