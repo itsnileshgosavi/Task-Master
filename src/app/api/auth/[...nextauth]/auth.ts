@@ -7,6 +7,14 @@ import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcrypt";
 import { connectDb } from "../../../../helper/db";
 
+type CustomProfile = {
+  name: string;
+  email: string;
+  image?: string; 
+  avatar_url?: string; 
+  picture?: string;
+};
+
 export const options: NextAuthOptions = {
   providers: [
     GitHubProvider({
@@ -43,17 +51,17 @@ export const options: NextAuthOptions = {
     })
   ],
   callbacks: {
-    async signIn({ user, account, profile }) {
+    async signIn({ user, account, profile }:{ user: any; account: any; profile: CustomProfile }) {
       if (account.provider === "github" || account.provider === "google" || account.provider === "discord") {
         await connectDb();
         const existingUser = await User.findOne({ email: profile.email });
-
+        
         if (!existingUser) {
+          
           await User.create({
             name: profile.name,
             email: profile.email,
-            profile_picture: profile.image,
-            createDate: new Date(),
+            profile_picture: profile.image || profile.picture || profile.avatar_url,
           });
         }
       }
@@ -65,10 +73,7 @@ export const options: NextAuthOptions = {
       }
       return token;
     },
-    async session({ session, token }) {
-      session.user.id = token.id;
-      return session;
-    },
+   
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
