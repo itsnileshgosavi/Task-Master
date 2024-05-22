@@ -50,13 +50,13 @@ const RegisterUser = () => {
 
           if (response.ok) {
             toast.success("User registered successfully");
-            router.push("/login");
+            router.push("/api/auth/signin");
           }else if(response.status==403){
                 toast.error("Provided email is already registered please login");
                 return;
           } else {
             console.error("Failed to register user:", response.statusText);
-            toast.error("Failed to register", error.message);
+            toast.error("Failed to register");
           }
         } catch (error) {
           
@@ -71,7 +71,7 @@ const RegisterUser = () => {
   };
 
   const loginClick = () => {
-    router.push("/login");
+    router.push("/api/auth/signin");
   };
 
   return (

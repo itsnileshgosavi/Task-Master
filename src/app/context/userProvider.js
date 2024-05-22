@@ -1,8 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import UserContext from "./userContext";
-import { signIn, signOut } from 'next-auth/react';
-import { SessionProvider } from "next-auth/react"
+
 
 
 import { currentUser } from "../services/userServices";

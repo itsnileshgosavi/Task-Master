@@ -1,6 +1,6 @@
 "use client";
 
-import { connectDb } from "@/helper/db";
+import { connectDb } from "../helper/db";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
