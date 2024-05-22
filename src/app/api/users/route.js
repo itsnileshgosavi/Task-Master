@@ -13,13 +13,14 @@ export async function GET(request) {
 
 export async function POST(request) {
   await connectDb();
-  const { name, email, password, profile_picture } = await request.json();
+  const { name, email, password, about, profile_picture } = await request.json();
 
   try {
     const newUser = new User({
       name,
       email,
       password,
+      about,
       profile_picture,
     });
     newUser.password = await bcrypt.hashSync(newUser.password, parseInt(process.env.BCRYPT_SALT));
