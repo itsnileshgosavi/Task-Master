@@ -15,13 +15,13 @@ export async function middleware(request) {
     return NextResponse.next();
   }
 
-  const loggedInUserNotAccessPath = pathname === '/login' || pathname === '/signup' || pathname ==='/api/auth/signin';
+  const loggedInUserNotAccessPath = pathname === '/login' || pathname === '/signup' || pathname ==='/signin';
 
   // Redirect logged-in users trying to access login or signup pages
   if (loggedInUserNotAccessPath) {
     
     if (token) {
-      return NextResponse.redirect(new URL('/', request.url));
+      return NextResponse.redirect(new URL('/your-tasks', request.url));
 
    
     }
@@ -37,7 +37,7 @@ export async function middleware(request) {
           }
         );
       }
-      return NextResponse.redirect(new URL('/api/auth/signin', request.url));
+      return NextResponse.redirect(new URL('/signin', request.url));
     }
   }
 
@@ -49,9 +49,11 @@ export const config = {
 
     '/addtask',
     '/signup',
+    '/signin',
     '/your-tasks',
     '/login',
     '/profile/:path*',
+    '/api/:path*'
 
   ],
 };
