@@ -74,7 +74,6 @@ const AddTask = () => {
         </label>
 
         <textarea
-          type="text"
           placeholder="Enter content"
           className="w-full p-3 rounded-3xl bg-gray-800 focus:ring-gray-400-100 border border-gray-800 text-neutral-content"
           rows={5}

@@ -1,50 +1,16 @@
 "use client";
 import Link from "next/link";
-import UserContext from "@/app/context/userContext";
-import { useContext, useEffect, useState } from "react";
-import { logout } from "@/app/services/userServices";
-import { toast } from "react-toastify";
+
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
+
 
 const Header = () => {
-  const context = useContext(UserContext);
+  
   const router = useRouter();
+  const { data: session, status } = useSession(); 
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  // Function to check if the user is logged in based on the presence of a cookie
-  const checkLoggedInStatus = () => {
-    const token = getCookie("loginToken");
-    setIsLoggedIn(!!token);
-    // Set isLoggedIn to true if the token is present, otherwise false
-  };
-  const getCookie = (name) => {
-    const cookies = document.cookie.split(";");
-    for (const cookie of cookies) {
-      const [cookieName, cookieValue] = cookie.split("=").map((c) => c.trim());
-      if (cookieName === name) {
-        return cookieValue;
-      }
-    }
-    return null;
-  };
-
-  useEffect(() => {
-    checkLoggedInStatus();
-  }, []);
-
-  const doLogout = async () => {
-    try {
-      const result = await logout();
-      console.log(result);
-      context.setUser(undefined);
-      router.push("/login");
-      toast.info("Logged out");
-    } catch (error) {
-      console.log("Something went wrong logging out");
-      toast.error("Error logging out");
-    }
-  };
 
   return (
     <header className="bg-[#a9a8ac] dark:bg-slate-950 p-4 w-full">
@@ -57,7 +23,7 @@ const Header = () => {
           </Link>
         </div>
         <div className="flex">
-          {context.user && (
+          {status =="authenticated" && (
             <ul className="flex m-3 justify-items-center">
               <li className="hidden md:block m-3">
                 <Link href="/addtask" className="hover:text-blue-500">
@@ -73,14 +39,14 @@ const Header = () => {
           )}
         </div>
         <div className="hidden md:flex md:space-x-4">
-          {context.user ? (
+          {status=="authenticated" ? (
             <>
               <Link href="/profile/user" className="hover:text-green-600">
-                {context.user.name}
+                {session.user?.name}
               </Link>
               <button
                 className="ms-1 px-3 py-0 bg-red-700 text-white rounded-3xl hover:bg-red-500 focus:outline-none focus:border-gray-700 focus:ring focus:ring-gray-200"
-                onClick={() =>{document.getElementById("my_modal").showModal();}
+                onClick={() =>signOut()
                  }
               >
                 Logout
@@ -88,7 +54,7 @@ const Header = () => {
             </>
           ) : (
             <>
-              <Link href="/login" className="hover:text-yellow-800">
+              <Link href="/api/auth/signin" className="hover:text-yellow-800">
                 Login
               </Link>
               <Link href="/signup" className="hover:text-yellow-600">
@@ -97,7 +63,7 @@ const Header = () => {
             </>
           )}
         </div>
-        {context.user ? (
+        {status =="authenticated" ? (
           <div className="md:hidden z-50 drawer drawer-end justify-end">
             <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
             <div className="drawer-content">
@@ -129,7 +95,7 @@ const Header = () => {
                 </li>
                 <li>
                 <Link href="/profile/user" className="hover:text-green-600">
-                 Profile ({context.user.name})
+                 Profile ({session.user.name})
                  </Link>
                 </li>
                 <li>
@@ -192,7 +158,7 @@ const Header = () => {
              
 
               <button className="btn">NO</button>
-              <button className="btn btn-warning m-3" onClick={()=>doLogout()}>YES</button>
+              <button className="btn btn-warning m-3" onClick={()=>signOut()}>YES</button>
             </form>
           </div>
         </div>

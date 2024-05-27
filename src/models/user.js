@@ -9,9 +9,7 @@ const userSchema = new Schema({
         unique:true,
         required: [true, "E-mail cannot be void"]},
 
-    password:{
-        type:String,
-        required: [true, "Password cannot be void"]},
+    password: String,
     about:String,
     profile_picture:String,
     createDate:{

@@ -205,7 +205,7 @@ const YourTasks = () => {
           ) : (
             <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 max-w-full">
               {filteredTasks.map((task) => (
-                <div
+                <div key={task._id}
                   className={`rounded-xl shrink-0  max-w-full shadow-2xl flex flex-wrap items-center justify-center w-full my-5 break-words mx-1 ${
                     task.status === "Completed" ? "bg-lime-900" : "dark:bg-slate-900 bg-slate-500"
                   }`}

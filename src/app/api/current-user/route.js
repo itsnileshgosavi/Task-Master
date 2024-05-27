@@ -1,29 +1,27 @@
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
-import { User } from "@/models/user";
-import { connectDb } from "@/helper/db";
+import { User } from "../../../models/user"
+import { connectDb } from "../../../helper/db";
+import { getServerSession } from "next-auth";
+import { options } from "../auth/[...nextauth]/auth";
 
 
-export async function GET(request) {
+export async function GET(req) {
   
   try {
+
+    const session = await getServerSession(options);
+    console.log(session);
     
-    const token = request.cookies.get("loginToken")?.value;
-
-    if (!token) {
-      return NextResponse.json({ error: "Token not provided" }, { status: 401 });
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const data = jwt.verify(token, process.env.JWT_KEY);
-
-    if (!data || !data.userID) {
-      return NextResponse.json({ error: "Invalid token data" }, { status: 401 });
-    }
     await connectDb();
-    const user = await User.findById(data.userID).select("-password");
-
+    const user = await User.findOne( { email: session.user.email }).select('-password');
+    //console.log(user);
     if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
+      return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
     return NextResponse.json(user);

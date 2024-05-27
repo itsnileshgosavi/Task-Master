@@ -1,4 +1,4 @@
-import { httpAxios } from "@/helper/httpHelper";
+import { httpAxios } from "../../helper/httpHelper";
 
 export async function currentUser() {
     const result = await httpAxios

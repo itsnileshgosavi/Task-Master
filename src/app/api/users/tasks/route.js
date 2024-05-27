@@ -1,27 +1,31 @@
-import jwt from "jsonwebtoken";
 import { Task } from "@/models/task";
 import { NextResponse } from "next/server";
 import { getResponseMessage } from "@/helper/getResponseMessage";
 import { connectDb } from "@/helper/db";
+import { getServerSession } from "next-auth";
+import { User } from "@/models/user";
+import { options } from "../../auth/[...nextauth]/auth";
 
 export async function GET(request) {
   try {
-    const token = request.cookies.get("loginToken")?.value;
-
-    if (!token) {
-      return getResponseMessage("Token not provided", false, 401);
+    const session = await getServerSession(options);
+    if (!session) {
+      return getResponseMessage("session not provided", false, 401);
     }
 
-    const data = jwt.verify(token, process.env.JWT_KEY);
+    
 
-    if (!data || !data.userID) {
+    if (!session || !session.user ) {
       return getResponseMessage("Invalid token data", false, 401);
     }
 
-    const user_Id = data.userID;
     await connectDb();
+    const user = await User.findOne({ 
+      email:session.user.email
+    })
+   
     const userstasks = await Task.find({
-      userID: user_Id
+      userID: user._id
     });
 
     return NextResponse.json(userstasks);
