@@ -2,13 +2,18 @@
 import React, { useEffect, useState } from "react";
 import UserContext from "./userContext";
 
+
+
 import { currentUser } from "../services/userServices";
 
 function UserProvider({ children }) {
-  const [user, setUser] = useState(undefined);
+  const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+ 
+ 
 
   useEffect(() => {
+
     async function load() {
       try {
         const tempUser = await currentUser();
@@ -33,9 +38,11 @@ function UserProvider({ children }) {
   }
 
   return (
+    
     <UserContext.Provider value={{ user, setUser }}>
       {children}
     </UserContext.Provider>
+   
   );
 }
 

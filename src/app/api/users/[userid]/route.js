@@ -1,5 +1,5 @@
-import { getResponseMessage } from "@/helper/getResponseMessage";
-import { User } from "@/models/user";
+import { getResponseMessage } from "../../../../helper/getResponseMessage";
+import { User } from "../../../../models/user";
 import { NextResponse } from "next/server";
 
 

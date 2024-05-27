@@ -1,4 +1,7 @@
+
 import React from "react";
+import { getServerSession } from "next-auth";
+import { options } from "./api/auth/[...nextauth]/auth";
 import Link from "next/link";
 
 
@@ -7,7 +10,9 @@ export const metadata = {
   description: "View or add your tasks here",
 };
 
-const Home = () => {
+const Home = async () => {
+  const session =await getServerSession(options);
+  
   return (
     <>
     
@@ -19,7 +24,6 @@ const Home = () => {
         <p className="p-1 mt-5 text-secondary md:text-xl">Join the community of productive individuals who are taking control of their time with TaskMaster. Sign up now and start your journey to a more organized and efficient life. With TaskMaster, your goals are within reach!</p>
       </section>
     </main>
-    
   
     </>
     
