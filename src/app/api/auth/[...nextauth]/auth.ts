@@ -37,12 +37,13 @@ export const options: NextAuthOptions = {
       },
       async authorize(credentials, req) {
         await connectDb();
-        const user = await User.findOne({ email: credentials.email });
+        const user = await User.findOne({ email: credentials.email }).select('+password');
         if (!user) {
-          throw new Error("No user found with this email address");
+          throw new Error("user not found");
         }
         const matched = await bcrypt.compare(credentials.password, user.password);
         if (matched) {
+          
           return user;
         } else {
           throw new Error("Invalid password");
@@ -77,6 +78,7 @@ export const options: NextAuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
-    signIn: "/signin"
+    signIn: "/signin",
+    error: '/signin',
   }
 };

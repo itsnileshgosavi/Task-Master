@@ -1,7 +1,7 @@
-import { User } from "@/models/user";
+import { User } from "../../../models/user";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
-import { connectDb } from "@/helper/db";
+import { connectDb } from "../../../helper/db"
 import Jwt  from "jsonwebtoken";
 
 

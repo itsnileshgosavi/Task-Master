@@ -18,7 +18,7 @@ const Header = () => {
         <div>
           <Link href="/">
             <button className="dark:text-white text-slate-800 text-lg font-semibold hover:text-blue-500">
-              TaskMaster
+              Task Master
             </button>
           </Link>
         </div>
@@ -46,7 +46,7 @@ const Header = () => {
               </Link>
               <button
                 className="ms-1 px-3 py-0 bg-red-700 text-white rounded-3xl hover:bg-red-500 focus:outline-none focus:border-gray-700 focus:ring focus:ring-gray-200"
-                onClick={() =>signOut()
+                onClick={() =>{document.getElementById("my_modal").showModal();}
                  }
               >
                 Logout
@@ -54,7 +54,7 @@ const Header = () => {
             </>
           ) : (
             <>
-              <Link href="/api/auth/signin" className="hover:text-yellow-800">
+              <Link href="/signin" className="hover:text-yellow-800">
                 Login
               </Link>
               <Link href="/signup" className="hover:text-yellow-600">

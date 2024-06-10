@@ -11,7 +11,7 @@ export async function GET(req) {
   try {
 
     const session = await getServerSession(options);
-    console.log(session);
+    
     
     if (!session) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

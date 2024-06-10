@@ -19,7 +19,6 @@ const RegisterUser = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    setLoading(true)
     const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
     if(formData.name.trim()===""){
@@ -62,13 +61,11 @@ const RegisterUser = () => {
             toast.error("Failed to register");
           }
         } catch (error) {
-          
+          //setLoading(false);
           toast.error(`Failed to registered`);
         }finally{
           setLoading(false);
-          setTimeout(() => {
-            window.location.reload();
-          }, 5000);
+         
         }
     }
   };
@@ -84,19 +81,19 @@ const RegisterUser = () => {
           <div className="flex flex-col space-y-1">
            
             <label htmlFor="Name" className="text-sm font-semibold text-gray-500">Name</label>
-            <input name='name' type="text" id="name" autoComplete='name' onChange={(e)=>{setFormData({...formData, name: e.target.value})}} className="px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200" />
+            <input name='name' type="text" id="name" autoComplete='name' onChange={(e)=>{setFormData({...formData, name: e.target.value})}} className="px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200 text-white" />
           </div>
           <div className="flex flex-col space-y-1">
            
             <label htmlFor="email" className="text-sm font-semibold text-gray-500">Email address</label>
-            <input name='email' type="email" id="email" autoComplete='email' onChange={(e)=>{setFormData({...formData, email: e.target.value})}} className="px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200" />
+            <input name='email' type="email" id="email" autoComplete='email' onChange={(e)=>{setFormData({...formData, email: e.target.value})}} className="px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200 text-white" />
           </div>
           <div className="flex flex-col space-y-1">
             <div className="flex items-center justify-between">
               <label htmlFor="password" className="text-sm font-semibold text-gray-500">Password</label>
               {/* <a href="#" className="text-sm text-blue-600 hover:underline focus:text-blue-800">Forgot Password?</a> */}
             </div>
-            <input name='password' type="password" id="password" autoComplete='new-password' onChange={(e)=>{setFormData({...formData, password: e.target.value})}} className="px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200" />
+            <input name='password' type="password" id="password" autoComplete='new-password' onChange={(e)=>{setFormData({...formData, password: e.target.value})}} className="px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 text-white focus:ring-blue-200" />
           </div>
           <div className="flex items-center space-x-2">
             {/* <input type="checkbox" id="remember" className="w-4 h-4 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200" /> */}
@@ -104,7 +101,7 @@ const RegisterUser = () => {
           </div>
           <div>
             <button type="submit" className="w-full px-4 py-2 text-lg font-semibold text-white transition-colors duration-300 bg-primary rounded-md shadow hover:bg-orange-800 focus:outline-none focus:ring-blue-200 focus:ring-4">
-              Sign Up
+            {loading? <span className='loading loading-spinner'></span>:"Sign Up"}
             </button>
           </div>
           <div className="flex flex-col space-y-5">

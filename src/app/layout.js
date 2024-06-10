@@ -12,7 +12,7 @@ import Loading from "./loading/loading";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Task Manager",
+  title: "Task Master",
   description: "Manage your tasks here",
 };
 

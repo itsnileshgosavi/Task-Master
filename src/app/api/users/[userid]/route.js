@@ -26,28 +26,33 @@ export async function GET(request, { params }){
     }
 };
 
-export async function PUT(request, { params }){
+export async function PUT(request, { params }) {
     try {
-            const { userid } = params;
-            const {name, password, email, profile_picture}=await request.json();
-            let user= await User.findById(userid);
-            
-            (user.name=name),
-            (user.email=email),
-            (user.password=password),
-            (user.profile_picture=profile_picture)
+        const { userid } = params;
+        const { name, email, about, profile_picture } = await request.json();
+        let user = await User.findById(userid);
 
-           const updatedUser= await user.save();
-
-           return NextResponse.json(updatedUser);
-        } catch (error) {
-
-            console.log(error);
-
-            return getResponseMessage("Error in updating data", false, 500)
-            
+        if (!user) {
+            return getResponseMessage("User not found", false, 404);
         }
+
+        // Update user fields
+        user.name = name;
+        user.email = email;
+        user.profile_picture = profile_picture;
+        user.about = about;
+
+        // Save the updated user
+        const updatedUser = await user.save();
+
+        // Return the updated user as response
+        return getResponseMessage("User data updated in db", true, 200)
+    } catch (error) {
+        console.log(error);
+        return getResponseMessage("Error in updating data", false, 500);
+    }
 };
+
 
 
 

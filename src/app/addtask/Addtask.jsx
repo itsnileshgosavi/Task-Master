@@ -1,7 +1,7 @@
 "use client";
 
 import { connectDb } from "@/helper/db";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { toast } from "react-toastify";
 connectDb();
 
@@ -11,6 +11,8 @@ const AddTask = () => {
     content: "",
     status: "",
   });
+
+  const formRef = useRef(null);
 
   const handleClick = async (event) => {
     event.preventDefault();
@@ -29,7 +31,13 @@ const AddTask = () => {
 
       if (response.ok) {
         toast.success("task added");
-        console.log("Task added successfully");
+        // Reset the form fields
+        setFormData({
+          title: "",
+          content: "",
+          status: "",
+        });
+        formRef.current.reset();
       } else {
         console.error("Failed to add task:", response.statusText);
         toast.error("failed");
@@ -50,7 +58,7 @@ const AddTask = () => {
       </figure>
       <h1 className="text-3xl text-center font-bold">Add Your Task</h1>
 
-      <form action="#!" onSubmit={handleClick} className="flex flex-col items-center p-2 pt-10 space-y-5">
+      <form ref={formRef} onSubmit={handleClick} className="flex flex-col items-center p-2 pt-10 space-y-5">
         <label htmlFor="title" className="block text-sm font-medium mb-2">
           Title
         </label>

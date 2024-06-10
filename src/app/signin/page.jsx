@@ -1,6 +1,10 @@
 'use client'
 import { signIn, getCsrfToken } from 'next-auth/react'
 import React, { useState, useEffect } from 'react'
+import Loading from '../loading/loading'
+import { toast } from 'react-toastify'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 
 const Login = () => {
@@ -9,6 +13,10 @@ const Login = () => {
     password: "",
   });
   const [csrfToken, setCsrfToken] = useState(null);
+  const [isLoading, setIsLoading]= useState(false);
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     const fetchCsrfToken = async () => {
@@ -16,20 +24,54 @@ const Login = () => {
       setCsrfToken(token);
     };
     fetchCsrfToken();
-  }, []);
+
+    if (router) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const error = urlParams.get('error');
+      if (error) {
+        switch (error) {
+          case 'CredentialsSignin':
+            setErrorMessage('Invalid email or password.');
+            break;
+          case 'Invalid password':
+            setErrorMessage('Invalid email or password.');
+            break;
+          case 'user not found':
+            setErrorMessage('Invalid email or password.');
+            break;
+          default:
+            setErrorMessage(error);
+        }
+      }
+    }
+  }, [router]);
 
   const handleSubmit = async(e)=>{
     e.preventDefault();
+    
     try {
+      if(loginData.email.trim()=="" || loginData.password.trim()==""){
+        toast.error("email or password cannot be null");
+        
+        return;
+      }
+      setIsLoading(true);
       const res = await signIn("credentials", {
-        redirect: false,
-       email: loginData.email,
-       password: loginData.password,
-        callbackUrl: "/"
+      // redirect: true,
+      email: loginData.email,
+      password: loginData.password,
+      callbackUrl: "/your-tasks"
       });
+     if(status=="authenticated"){
+        toast.success('success')
+     }else{
+      toast.error(res?.error)
+     }
       
     } catch (error) {
-     alert(error); 
+     console.log(error)
+    }finally{
+      setIsLoading(false);
     }
   }
   return (
@@ -56,23 +98,25 @@ const Login = () => {
           <div className="flex flex-col space-y-1">
             <input name="csrfToken" type="hidden" value={csrfToken ?? ""} />
             <label htmlFor="email" className="text-sm font-semibold text-gray-500">Email address</label>
-            <input name='email' type="email" id="email" autoComplete='email' onChange={(e)=>{setLoginData({...loginData, email: e.target.value})}} className="px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200" />
+            <input name='email' type="email" id="email" autoComplete='email' onChange={(e)=>{setLoginData({...loginData, email: e.target.value})}} className="text-white px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200" />
           </div>
           <div className="flex flex-col space-y-1">
             <div className="flex items-center justify-between">
               <label htmlFor="password" className="text-sm font-semibold text-gray-500">Password</label>
               {/* <a href="#" className="text-sm text-blue-600 hover:underline focus:text-blue-800">Forgot Password?</a> */}
             </div>
-            <input name='password' type="password" id="password" autoComplete='current-password' onChange={(e)=>{setLoginData({...loginData, password: e.target.value})}} className="px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200" />
+            <input name='password' type="password" id="password" autoComplete='current-password' onChange={(e)=>{setLoginData({...loginData, password: e.target.value})}} className="text-white px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200" />
           </div>
           <div className="flex items-center space-x-2">
             {/* <input type="checkbox" id="remember" className="w-4 h-4 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200" /> */}
             {/* <label htmlFor="remember" className="text-sm font-semibold text-gray-500">Remember me</label> */}
           </div>
           <div>
+          {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
             <button type="submit" className="w-full px-4 py-2 text-lg font-semibold text-white transition-colors duration-300 bg-primary rounded-md shadow hover:bg-orange-500 focus:outline-none focus:ring-blue-200 focus:ring-4">
-              Log in
+             {isLoading? <span className='loading loading-spinner'></span>:"Log In"}
             </button>
+            
           </div>
           <div className="flex flex-col space-y-5">
             <span className="flex items-center justify-center space-x-2">
