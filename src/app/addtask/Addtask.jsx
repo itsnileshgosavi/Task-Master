@@ -1,7 +1,7 @@
 "use client";
 
 import { connectDb } from "@/helper/db";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 connectDb();
 
@@ -9,10 +9,10 @@ const AddTask = () => {
   const [formData, setFormData] = useState({
     title: "",
     content: "",
-    status: "",
+    status: "Pending",
   });
 
-  const formRef = useRef(null);
+ 
 
   const handleClick = async (event) => {
     event.preventDefault();
@@ -37,7 +37,7 @@ const AddTask = () => {
           content: "",
           status: "",
         });
-        formRef.current.reset();
+        event.target.reset();
       } else {
         console.error("Failed to add task:", response.statusText);
         toast.error("failed");
@@ -48,88 +48,35 @@ const AddTask = () => {
   };
 
   return (
-    <div className="dark:bg-slate-600 bg-slate-300 w-80 max-w-full flex justify-center flex-col items-center md:w-2/3 mx-auto my-5 py-10">
-      <figure className="flex justify-center">
-        <img
-          className="h-20 w-16"
-          src="https://cdn.iconscout.com/icon/premium/png-256-thumb/add-task-3912847-3242334.png"
-          alt="image"
-        />
-      </figure>
-      <h1 className="text-3xl text-center font-bold">Add Your Task</h1>
+<div className="flex min-h-screen items-center justify-start bg-white px-10">
+  <div className="mx-auto w-full max-w-lg text-black">
+    <h1 className="text-4xl font-medium">Add Task</h1>
+    <p className="mt-3">Please fill the form with your task details</p>
 
-      <form ref={formRef} onSubmit={handleClick} className="flex flex-col items-center p-2 pt-10 space-y-5">
-        <label htmlFor="title" className="block text-sm font-medium mb-2">
-          Title
-        </label>
-
-        <input
-          type="text"
-          placeholder="Enter title"
-          className="w-full p-3 rounded-3xl bg-gray-800 focus:ring-gray-400-100 border border-gray-800 text-neutral-content"
-          id="title"
-          name="title"
-          onChange={(event) => {
-            setFormData({
-              ...formData,
-              title: event.target.value,
-            });
-          }}
-        />
-
-        <label htmlFor="content" className="block text-sm font-medium mb-2">
-          Content
-        </label>
-
-        <textarea
-          placeholder="Enter content"
-          className="w-full p-3 rounded-3xl bg-gray-800 focus:ring-gray-400-100 border border-gray-800 text-neutral-content"
-          rows={5}
-          id="content"
-          name="content"
-          onChange={(event) => {
-            setFormData({
-              ...formData,
-              content: event.target.value,
-            });
-          }}
-        />
-
-        <label htmlFor="status" className="block text-sm font-medium mb-2">
-          Status
-        </label>
-
-        <select
-          className="w-full p-3 rounded-3xl bg-gray-800 focus:ring-gray-400-100 border border-gray-800 text-neutral-content"
-          id="status"
-          name="status"
-          value={formData.status}
-          onChange={(event) => {
-            setFormData({
-              ...formData,
-              status: event.target.value,
-            });
-          }}
-        >
-          <option>--Select Status--</option>
-          <option value="Pending">Pending</option>
-          <option value="Completed">Completed</option>
+    <form onSubmit={handleClick} className="mt-10">
+      <div className="grid gap-6 sm:grid-cols-1">
+        <div className="relative z-0">
+          <input type="text" name="name" onChange={(e) => setFormData({ ...formData, title: e.target.value })} className="peer block w-full appearance-none border-0 border-b border-gray-500 bg-transparent py-2.5 px-0 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0" placeholder=" " />
+          <label className="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-blue-600 peer-focus:dark:text-blue-500">Enter Title</label>
+        </div>
+        
+        <div className="relative z-0">
+          <textarea name="message" rows="5" onChange={(e) => setFormData({ ...formData, content: e.target.value })} className="peer block w-full appearance-none border-0 border-b border-gray-500 bg-transparent py-2.5 px-0 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0" placeholder=" "></textarea>
+          <label className="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-blue-600 peer-focus:dark:text-blue-500">Enter Content</label>
+        </div>
+        <div className="relative z-0">
+        <select defaultValue={"Pending"} onChange={(e) => setFormData({ ...formData, status: e.target.value })} className="select select-bordered select-sm w-full max-w-xs bg-transparent">
+            <option value="Pending">Pending</option>
+            <option value="Completed">Completed</option>
         </select>
-
-        <button
-          type="submit"
-          className="px-6 py-3 bg-sky-600 text-white rounded-3xl hover:bg-cyan-800 focus:outline-none focus:border-gray-700 focus:ring focus:ring-gray-200"
-        >
-          Submit
-        </button>
-        <button
-          className="ms-3 px-6 py-3 bg-red-700 text-white rounded-3xl hover:bg-red-500 focus:outline-none focus:border-gray-700 focus:ring focus:ring-gray-200"
-          type="reset"
-        >
-          Clear
-        </button>
-      </form>
-    </div>
+      </div>
+      </div>
+      
+      <button type="submit" className="mt-5 rounded-md btn btn-primary px-10 py-2 text-white">Add</button>
+      <button type="reset" className="mt-5 mx-5 rounded-md btn hover:bg-red-500 bg-red-600 px-10 py-2 text-white">Reset</button>
+    </form>
+  </div>
+</div> 
   );
 };
 

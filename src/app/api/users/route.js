@@ -5,11 +5,7 @@ import { connectDb } from "../../../helper/db"
 import Jwt  from "jsonwebtoken";
 
 
-
-export async function GET(request) {
-  const users = await User.find();
-  return NextResponse.json(users);
-}
+//This is public api for signup
 
 export async function POST(request) {
   await connectDb();

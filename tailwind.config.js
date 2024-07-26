@@ -12,10 +12,23 @@ module.exports = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+
     },
+    fontFamily: {
+      'poppins': ['Poppins', 'sans-serif'],
+      'roboto': ['Roboto', 'sans-serif'],
+      'Montserrat': ['Montserrat', 'sans-serif'],
+    }
   },
   daisyui: {
-    themes: ["light", "dark", "halloween"],
+    themes: [{light:{
+      primary: "#3A5AFF",
+      secondary: "#FFC43B",
+      accent: "#FF3B53",
+      neutral: "#F2F2F2",
+      "base-100": "#979797",
+      info: "#C2A5DF",
+    }}],
   },
   plugins: [require("daisyui")],
 }

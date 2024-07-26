@@ -10,19 +10,25 @@ const Header = () => {
   
   const router = useRouter();
   const { data: session, status } = useSession(); 
-
+  const userName = session?.user.name;
+  let picture_url;
+  if (session) {
+    picture_url = session?.user.image || `https://ui-avatars.com/api/?name=${userName}&background=random&bold=true`;
+  }else{
+    picture_url = "/profile.png"
+  }
 
   return (
-    <header className="bg-[#a9a8ac] dark:bg-slate-950 p-4 w-full">
-      <nav className="flex items-center sticky justify-between">
-        <div>
+    <header className="bg-white  p-4 w-full">
+      <nav className="flex items-center justify-around h-20">
+        
           <Link href="/">
-            <button className="dark:text-white text-slate-800 text-lg font-semibold hover:text-blue-500">
-              Task Master
+            <button className=" font-Montserrat font-bold text-black flex items-center text-lg uppercase hover:text-blue-500">
+              <img src="/logo.png" alt="logo" className="w-7 h-7 m-2" /><span className="mt-1">Task Master</span> 
             </button>
           </Link>
-        </div>
-        <div className="flex">
+        
+        <div className="flex font-poppins font-light uppercase text-black">
           {status =="authenticated" && (
             <ul className="flex m-3 justify-items-center">
               <li className="hidden md:block m-3">
@@ -38,127 +44,105 @@ const Header = () => {
             </ul>
           )}
         </div>
-        <div className="hidden md:flex md:space-x-4">
+        <div className="hidden md:flex md:space-x-4 text-black">
           {status=="authenticated" ? (
-            <>
-              <Link href="/profile/user" className="hover:text-green-600">
-                {session.user?.name}
-              </Link>
-              <button
-                className="ms-1 px-3 py-0 bg-red-700 text-white rounded-3xl hover:bg-red-500 focus:outline-none focus:border-gray-700 focus:ring focus:ring-gray-200"
-                onClick={() =>{document.getElementById("my_modal").showModal();}
-                 }
-              >
-                Logout
-              </button>
-            </>
+            <div className="flex items-center space-x-2">
+             
+                  <div className="avatar dropdown dropdown-end cursor-pointer">
+                    <div tabIndex={0} className="w-12 rounded-full">
+                      <img src={picture_url} alt="user profile" />
+                    </div>
+                    <ul tabIndex={0} className="dropdown-content menu bg-white rounded-box z-[1] w-52 p-2 shadow">
+                      <li>
+                        <Link href="/profile/user" className="hover:text-blue-500 mb-2 font-poppins font-bold">
+                          Profile ({session.user.name})
+                        </Link>
+                      </li>
+                      <li>
+                        <button
+                        className="btn bg-red-600 hover:bg-red-500"
+                        onClick={() =>{document.getElementById("my_modal").showModal();}}>
+                          Logout
+                         </button>
+                      </li>
+                    </ul>
+                  </div>
+              
+              
+            </div>
           ) : (
             <>
-              <Link href="/signin" className="hover:text-yellow-800">
+              <Link href="/signin" className="btn btn-outline ">
                 Login
               </Link>
-              <Link href="/signup" className="hover:text-yellow-600">
+              <Link href="/signup" className="btn btn-primary">
                 Sign Up
               </Link>
             </>
           )}
         </div>
         {status =="authenticated" ? (
-          <div className="md:hidden z-50 drawer drawer-end justify-end">
-            <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
-            <div className="drawer-content">
-              {/* Page content here */}
-              <label
-                htmlFor="my-drawer-4"
-                className="drawer-button bt"
-              >
-                &#8801;
-              </label>
-            </div>
-            <div className="drawer-side z-50">
-              <label
-                htmlFor="my-drawer-4"
-                aria-label="close sidebar"
-                className="drawer-overlay z-50"
-              ></label>
-              <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content z-50">
-                {/* Sidebar content here */}
+          <div className="md:hidden dropdown dropdown-end">
+          <div tabIndex={0} role="button" className="btn m-1 btn-outline text-5xl ">&#8801;</div>
+            <ul tabIndex={0} className="dropdown-content menu bg-white text-black rounded-box z-[1] w-52 p-2 shadow">
+            <li>
+                 <Link href="/addtask" className="hover:text-blue-500">
+                  Add Task
+                  </Link>
+                 </li>
+                 <li>
+                 <Link href="/your-tasks" className="hover:text-blue-500">
+                   Show Tasks
+                  </Link>
+                 </li>
+                 <li>
+                 <Link href="/profile/user" className="hover:text-green-600">
+                  Profile ({session.user.name})
+                </Link>
+                 </li>
+                 <li>
+                 <div
+                  className="btn bg-red-600"
+                  onClick={() =>{document.getElementById("my_modal").showModal();}
+                 }
+                  >
+                    Logout
+                 </div>
+                 </li>
+            </ul>
+        </div>
+       
+        ) : (
+          <div className="md:hidden dropdown dropdown-end">
+            <div tabIndex={0} role="button" className="btn m-1 btn-outline text-5xl">&#8801;</div>
+              <ul tabIndex={0} className="dropdown-content menu bg-white rounded-box z-[1] w-52 p-2 shadow">
                 <li>
-                <Link href="/addtask" className="hover:text-blue-500">
-                 Add Task
-                 </Link>
+                  <Link href="/signup" className="btn btn-primary m-1">
+                    Sign Up
+                  </Link>
                 </li>
                 <li>
-                <Link href="/your-tasks" className="hover:text-blue-500">
-                  Show Tasks
-                 </Link>
-                </li>
-                <li>
-                <Link href="/profile/user" className="hover:text-green-600">
-                 Profile ({session.user.name})
-                 </Link>
-                </li>
-                <li>
-                <div
-                 className="block ms-1 px-2 py-0 btn bg-red-700 text-white rounded-3xl hover:bg-red-500 focus:outline-none focus:border-gray-700 focus:ring focus:ring-gray-200"
-                 onClick={() =>{document.getElementById("my_modal").showModal();}
-                }
-                 >
-                   Logout
-                </div>
+                    <Link href="/signin" className="btn btn-outline m-1">
+                      Login
+                    </Link>
                 </li>
               </ul>
-            </div>
           </div>
-        ) : (
-          <div className="md:hidden z-50 drawer drawer-end justify-end">
-          <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
-          <div className="drawer-content">
-            {/* Page content here */}
-            <label
-              htmlFor="my-drawer-4"
-              className="drawer-button bt"
-            >
-              &#8801;
-            </label>
-          </div>
-          <div className="drawer-side z-50">
-            <label
-              htmlFor="my-drawer-4"
-              aria-label="close sidebar"
-              className="drawer-overlay z-50"
-            ></label>
-            <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content z-50">
-              {/* Sidebar content here */}
-              
-              <li>
-              <Link href="/login" className="hover:text-yellow-800">
-                   Login
-                 </Link>
-              </li>
-              <li>
-              <Link href="/signup" className="hover:text-yellow-600">
-                 Sign Up
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
+      
           
         )}
       </nav>
+      {/* <!-- The Modals --> */}
       <dialog id="my_modal" className="modal">
-        <div className="modal-box absolute top-0">
+        <div className="modal-box absolute top-0 h-fit bg-secondary">
           <h3 className="font-bold text-lg text-red-600">Confirm Logout?</h3>
           <p className="py-4 text-white">
             Are you sure you want to logout?
           </p>
           <div className="modal-action">
             <form method="dialog">
-             
-
-              <button className="btn">NO</button>
-              <button className="btn btn-warning m-3" onClick={()=>signOut()}>YES</button>
+              <button className="btn py-0">NO</button>
+              <button className="btn mx-3 bg-red-500 hover:bg-red-600 m-3" onClick={()=>signOut()}>YES</button>
             </form>
           </div>
         </div>

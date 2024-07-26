@@ -10,13 +10,11 @@ export async function GET(request) {
   try {
     const session = await getServerSession(options);
     if (!session) {
-      return getResponseMessage("session not provided", false, 401);
+      return getResponseMessage("ACCESS DENIED: UNAUTHORIZED", false, 401);
     }
 
-    
-
     if (!session || !session.user ) {
-      return getResponseMessage("Invalid token data", false, 401);
+      return getResponseMessage("INVALID TOKEN", false, 401);
     }
 
     await connectDb();
@@ -30,8 +28,8 @@ export async function GET(request) {
 
     return NextResponse.json(userstasks);
   } catch (error) {
-    console.error("Error verifying token:", error);
+    console.error("ERROR GETTING USERS TASKS:", error);
 
-    return getResponseMessage("Error getting user's tasks", false, 500);
+    return getResponseMessage("INTERNAL SERVER ERROR", false, 500);
   }
 }

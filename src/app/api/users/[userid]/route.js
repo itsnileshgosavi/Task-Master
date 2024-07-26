@@ -1,36 +1,59 @@
 import { getResponseMessage } from "../../../../helper/getResponseMessage";
 import { User } from "../../../../models/user";
 import { NextResponse } from "next/server";
+import { connectDb } from "../../../../helper/db";
+import { getServerSession } from "next-auth";
+import { options } from "../../auth/[...nextauth]/auth";
+import { Task } from "@/models/task";
 
+// Delete User
 
 export async function DELETE(request, { params }){
+    const session  =await getServerSession(options);
+    if (!session) {
+        return getResponseMessage("session not provided", false, 401);
+    }
     
+
+    await connectDb();
+    
+   
     const userid =params.userid;
+    const user= await User.findOne({ email:session.user.email });
+
+    if (!user) {
+        return getResponseMessage("User not found", false, 404);
+    }
     
+    if( session.user.email !== user.email){
+        return getResponseMessage("Access Denied : Unauthorized", false, 401);
+    }
+   
     await User.deleteOne({
         _id:userid
     });
+    await Task.deleteMany({userID:user._id});
     return getResponseMessage("user deleted", true, 200);
 };
 
-export async function GET(request, { params }){
-    try {
-        const userid =params.userid;
-        const user= await User.findById(userid);
-    
-        return NextResponse.json(user);
-        
-    } catch (error) {
-        return getResponseMessage("error in deleting user", 500, false);
-        
-    }
-};
+//update user data api
 
 export async function PUT(request, { params }) {
     try {
+        const session  =await getServerSession(options);
+        if (!session) {
+            return getResponseMessage("session not provided", false, 401);
+        }
+
+        await connectDb();
+
         const { userid } = params;
         const { name, email, about, profile_picture } = await request.json();
         let user = await User.findById(userid);
+
+        if (user.email !== session.user.email) {
+            return getResponseMessage("Access Denied : Unauthorized", false, 401);
+        }
 
         if (!user) {
             return getResponseMessage("User not found", false, 404);
@@ -46,7 +69,7 @@ export async function PUT(request, { params }) {
         const updatedUser = await user.save();
 
         // Return the updated user as response
-        return getResponseMessage("User data updated in db", true, 200)
+        return getResponseMessage("USER UPDATED", true, 200)
     } catch (error) {
         console.log(error);
         return getResponseMessage("Error in updating data", false, 500);
