@@ -24,7 +24,7 @@ const Header = () => {
         
           <Link href="/">
             <button className=" font-Montserrat font-bold text-black flex items-center text-lg uppercase hover:text-blue-500">
-              <img src="/logo.png" alt="logo " className="w-7 h-7 m-2" /><span className="mt-1">Task Master</span> 
+              <img src="/logo1.png" alt="logo " className="w-7 h-7 m-2" /><span className="mt-1">Task Master</span> 
             </button>
           </Link>
         
