@@ -50,5 +50,26 @@ body {
 body{
   background-color: white !important;
 }
+/* change the default scrollbar */
+html{
+  scrollbar-width: thin;
+  scrollbar-color: #1a11be transparent;
+
+}
+html::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+html::-webkit-scrollbar-track {
+  background: transparent;
+}
+html::-webkit-scrollbar-thumb {
+  background-color: #2901b8;
+  border-radius: 10px;
+  border: 0px solid #450271;
+}
+html::-webkit-scrollbar-thumb:hover {
+  background: #1a11be;
+}
 }
 
