@@ -18,7 +18,12 @@ const userSchema = new Schema({
         type: Date,
         required: true,
         default: Date.now()
-    }
+    },
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
+    providerName: String
 });
 
 // Export User model

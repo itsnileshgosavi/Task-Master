@@ -63,6 +63,8 @@ export const options: NextAuthOptions = {
             name: profile.name,
             email: profile.email,
             profile_picture: profile.image || profile.picture || profile.avatar_url,
+            isVerified: true,
+            providerName: account.provider
           });
         }
       }

@@ -10,7 +10,9 @@ export async function middleware(request) {
   if (
     pathname === '/api/login' ||
     pathname === '/api/users' ||
-    pathname.startsWith('/api/auth/')
+    pathname.startsWith('/api/auth/') ||
+    pathname === '/api/resend/send-reset' ||
+    pathname === '/api/reset-password'
   ) {
     return NextResponse.next();
   }
@@ -49,6 +51,8 @@ export const config = {
 
     '/addtask',
     '/signup',
+    '/api/resend/send-reset',
+    '/api/reset-password',
     '/signin',
     '/your-tasks',
     '/login',

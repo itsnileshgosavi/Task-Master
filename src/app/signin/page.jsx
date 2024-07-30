@@ -5,6 +5,7 @@ import Loading from '../loading/loading'
 import { toast } from 'react-toastify'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 
 const Login = () => {
@@ -103,7 +104,7 @@ const Login = () => {
           <div className="flex flex-col space-y-1">
             <div className="flex items-center justify-between">
               <label htmlFor="password" className="text-sm font-semibold text-gray-500">Password</label>
-              {/* <a href="#" className="text-sm text-blue-600 hover:underline focus:text-blue-800">Forgot Password?</a> */}
+              <Link href="/reset-password" className="text-sm text-blue-600 hover:underline focus:text-blue-800">Forgot Password?</Link>
             </div>
             <input name='password' type="password" id="password" autoComplete='current-password' onChange={(e)=>{setLoginData({...loginData, password: e.target.value})}} className="text-black dark:text-black px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200" />
           </div>
