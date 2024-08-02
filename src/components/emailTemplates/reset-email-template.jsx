@@ -7,8 +7,8 @@ export const ResetPwdTemplate = ({
 }) => (
   <div className='flex flex-col justify-center items-center'>
 
-    <div className='flex items-center'>
-      <img src="https://task-manager.nileshgosavi.tech/logo1.png" alt="logo " className="w-7 h-7 m-2" />
+    <div className='flex items-center' style={{ display: 'flex', alignItems: 'center' }}>
+      <img src="https://task-manager.nileshgosavi.tech/logo1.png" alt="logo " style={{width: "30px", height: "30px"}} className="w-7 h-7 m-2" />
       <h1 className="mt-1 text-black text-2xl font-poppins font-bold">Task Master</h1>
     </div>
     <h2 className='text-black text-xl font-roboto'>Reset Password</h2>

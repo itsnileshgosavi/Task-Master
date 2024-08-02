@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Loading from "../loading/loading";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 
 const RegisterUser = () => {
   const router = useRouter();
@@ -52,7 +53,19 @@ const RegisterUser = () => {
 
           if (response.ok) {
             toast.success("User registered successfully");
-            router.push("/api/auth/signin");
+            const welcomeRes = await fetch("/api/resend/send-welcome", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              
+              body: JSON.stringify({
+                email: formData.email,
+              }),
+            })
+            if(welcomeRes.ok){
+              router.push("/verify");
+            }
           }else if(response.status==403){
                 toast.error("Provided email is already registered please login");
                 return;
@@ -91,13 +104,13 @@ const RegisterUser = () => {
           <div className="flex flex-col space-y-1">
             <div className="flex items-center justify-between">
               <label htmlFor="password" className="text-sm font-semibold text-gray-500">Password</label>
-              {/* <a href="#" className="text-sm text-blue-600 hover:underline focus:text-blue-800">Forgot Password?</a> */}
+              <Link href="/reset-password" className="text-sm text-blue-600 hover:underline focus:text-blue-800">Forgot Password?</Link>
             </div>
             <input name='password' type="password" id="password" autoComplete='new-password' onChange={(e)=>{setFormData({...formData, password: e.target.value})}} className="px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 text-black focus:ring-blue-200" />
           </div>
           <div className="flex items-center space-x-2">
-            {/* <input type="checkbox" id="remember" className="w-4 h-4 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200" /> */}
-            {/* <label htmlFor="remember" className="text-sm font-semibold text-gray-500">Remember me</label> */}
+            <input type="checkbox" id="remember" className="w-4 h-4 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200" />
+            <label htmlFor="remember" className="text-sm font-semibold text-gray-500">Remember me</label>
           </div>
           <div>
             <button type="submit" className="w-full px-4 py-2 text-lg font-semibold text-white transition-colors duration-300 bg-primary rounded-md shadow hover:bg-blue-800 focus:outline-none focus:ring-blue-200 focus:ring-4">

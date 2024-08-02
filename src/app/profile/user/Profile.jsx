@@ -5,11 +5,13 @@ import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
 import Loading from "@/app/loading/loading";
 import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
 
 export default function Profile() {
   const { data: session, status } = useSession();
   const [user, setUser] = useState({});
-  
+  const router = useRouter();  
   const userName = session?.user.name || user.name;
   const email = session?.user.email;
   let picture_url;
@@ -18,6 +20,7 @@ export default function Profile() {
   }else{
     picture_url = "../profile.png"
   }
+  console.log(session)
   
   const [newName, setNewName] = useState(userName);
   const [about, setNewAbout] = useState("");
@@ -82,6 +85,30 @@ export default function Profile() {
     }
   }
 
+  const handleVerifyClick=async() => {
+    try {
+      const res = await fetch('/api/resend/send-welcome', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: email
+        })
+      })
+      if (res.status === 200) {
+        toast.success('Verification code sent!')
+        router.push("/verify")
+      }else if(res.status === 400){
+        router.push("/verify")
+      }  else {
+        throw new Error('Something went wrong');
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  }
+
 
 
   return (
@@ -98,11 +125,13 @@ export default function Profile() {
                 <h1 className="text-2xl font-bold mb-4 my-5">{userName}</h1>
               </div>
               <div className="flex justify-center">
-                <h2>{email}</h2>
+                <h2>{email} {session?.user.isVerified ? <span className="badge badge-success">☑️</span> : <span className="badge badge-error">Not Verified</span>}</h2>
               </div>
           </div>
           <div className="h-0 w-full opacity-0 p-10 rounded-lg transition-all duration-500 text-[0px] rotate-[90] scale-[-1] flex flex-col justify-start space-y-2 group-hover:opacity-100 group-hover:h-full group-hover:rotate-180 group-hover:text-3xl">
+            {!session?.user.isVerified && <button className="p-3 btn btn-outline rounded-md mt-5" onClick={() =>{handleVerifyClick()}}>Verify Email</button>}
             <button className="p-3 btn btn-outline rounded-md mt-5" onClick={() => document.getElementById('editUserModal').showModal()}>Edit Profile</button>
+            <button className="btn btn-neutral my-3" onClick={()=>{router.push("/reset-password")}}>Change Password</button>
             <button className="btn btn-warning mx-3"onClick={()=>document.getElementById('deleteusermodal').showModal()}>Delete Profile</button>
           </div>
       </div>

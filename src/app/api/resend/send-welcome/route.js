@@ -26,7 +26,9 @@ export async function POST(req) {
        const x= await Verifications.create({ email, verificationCode }); // store the verification code in the database
        
     }
-    console.log(ver);
+    if(user.isVerified){
+      return NextResponse.json({ error: 'User already verified' }, { status: 403 });
+    }
     if (!ver){
         const { data, error } = await resend.emails.send({  // send the email with the verification code
             from: 'Task Master <welcome@task.manager.nileshgosavi.tech>',

@@ -70,12 +70,24 @@ export const options: NextAuthOptions = {
       }
       return true; // Return true to proceed with sign-in
     },
-    async jwt({ token, user }) {
+
+    async jwt({ token, user }:{ token: any; user: any }) {
+   
       if (user) {
-        token.id = user.id;
-      }
+        token.id = user?.id ?? null;
+        token.isVerified = user?.isVerified ?? false;
+        token.image = user?.profile_picture ?? null;
+      } 
       return token;
     },
+
+    async session({ session, token }:{ session: any; token: any }) {
+      session.user.id = token.id;
+      session.user.isVerified = token.isVerified;
+      session.user.image = token.image;
+      return session;
+    },
+
    
   },
   secret: process.env.NEXTAUTH_SECRET,

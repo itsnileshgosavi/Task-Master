@@ -12,7 +12,9 @@ export async function middleware(request) {
     pathname === '/api/users' ||
     pathname.startsWith('/api/auth/') ||
     pathname === '/api/resend/send-reset' ||
-    pathname === '/api/reset-password'
+    pathname === '/api/reset-password' ||
+    pathname === '/api/resend/send-welcome' ||
+    pathname === '/api/verify-email'
   ) {
     return NextResponse.next();
   }
