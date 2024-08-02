@@ -67,8 +67,13 @@ export const options: NextAuthOptions = {
             providerName: account.provider
           });
         }
+        return {
+          ...user,
+          isVerified: true,
+
+        }
       }
-      return true; // Return true to proceed with sign-in
+      return user; // return user object
     },
 
     async jwt({ token, user }:{ token: any; user: any }) {
