@@ -70,7 +70,7 @@ export const options: NextAuthOptions = {
         return {
           ...user,
           isVerified: true,
-
+          profile_picture: profile.image || profile.picture || profile.avatar_url,
         }
       }
       return user; // return user object
@@ -80,13 +80,14 @@ export const options: NextAuthOptions = {
    
       if (user) {
         token.id = user?.id ?? null;
-        token.isVerified = user?.isVerified ?? false;
-        token.image = user?.profile_picture ?? null;
+        token.isVerified = user?.isVerified ?? true;
+        token.image = user.profile_picture || user.image || user.avatar_url || user.picture;
+        token.exp = Math.floor(Date.now() / 1000) + (60 * 60 * 24); // Set token expiration to 1 day
       } 
       return token;
     },
 
-    async session({ session, token }:{ session: any; token: any }) {
+    async session({ session, token }:{ session: any; token: any}) {
       session.user.id = token.id;
       session.user.isVerified = token.isVerified;
       session.user.image = token.image;

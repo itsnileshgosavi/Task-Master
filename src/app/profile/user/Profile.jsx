@@ -14,19 +14,14 @@ export default function Profile() {
   const router = useRouter();  
   const userName = session?.user.name || user.name;
   const email = session?.user.email;
-  let picture_url;
-  if (session) {
-    picture_url = session?.user.image || `https://ui-avatars.com/api/?name=${userName}&background=random&bold=true`;
-  }else{
-    picture_url = "../profile.png"
-  }
-  console.log(session)
-  
+  const [profilePicture, setProfilePicture] = useState('../profile.png');
   const [newName, setNewName] = useState(userName);
   const [about, setNewAbout] = useState("");
   const [newEmail, setNewEmail] = useState(email);
-  const [profilePicture, setProfilePicture] = useState(picture_url);
  
+  useEffect(() => {
+    setProfilePicture(session?.user.image);
+  }, [session, status]);
 
   useEffect(() => {
     const getCurrentUserData = async () => {
@@ -125,7 +120,7 @@ export default function Profile() {
                 <h1 className="text-2xl font-bold mb-4 my-5">{userName}</h1>
               </div>
               <div className="flex justify-center">
-                <h2>{email} {session?.user.isVerified ? <span className="badge badge-success">☑️</span> : <span className="badge badge-error">Not Verified</span>}</h2>
+                <h2>{email} {session?.user.isVerified ? <span className="badge badge-success">✔</span> : <span className="badge badge-error">Not Verified</span>}</h2>
               </div>
           </div>
           <div className="h-0 w-full opacity-0 p-10 rounded-lg transition-all duration-500 text-[0px] rotate-[90] scale-[-1] flex flex-col justify-start space-y-2 group-hover:opacity-100 group-hover:h-full group-hover:rotate-180 group-hover:text-3xl">
