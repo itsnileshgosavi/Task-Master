@@ -20,7 +20,7 @@ export default function Profile() {
   const [newEmail, setNewEmail] = useState(email);
  
   useEffect(() => {
-    setProfilePicture(session?.user.image);
+    setProfilePicture(session?.user.image || '../profile.png');
   }, [session, status]);
 
   useEffect(() => {
