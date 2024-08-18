@@ -2,10 +2,12 @@
 
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
+import { useToast } from "@/components/ui/use-toast";
 import Loading from "@/app/loading/loading";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { title } from "process";
 
 
 export default function Profile() {
@@ -18,6 +20,8 @@ export default function Profile() {
   const [newName, setNewName] = useState(userName);
   const [about, setNewAbout] = useState("");
   const [newEmail, setNewEmail] = useState(email);
+
+  const { toast } = useToast();
  
   useEffect(() => {
     setProfilePicture(session?.user.image || '../profile.png');
@@ -57,13 +61,13 @@ export default function Profile() {
         body: stringified,
       });
       if (response.status === 200) {
-        toast.success("Profile updated successfully");
+        toast({title:"Profile updated successfully"});
         
       } else {
         throw new Error('Something went wrong');
       }
     } catch (error) {
-      toast.error(`Error: ${error.message}`);
+      toast({title:`Error: ${error.message}`});
     }finally{
       document.getElementById("editUserModal").close();
     }
@@ -73,10 +77,10 @@ export default function Profile() {
       method: "DELETE",
     })
     if(res.ok){
-      toast.success("user account deleted permanently")
+      toast({title:"user account deleted permanently"})
       await signOut();
     }else{
-      toast.error("failed to delete user")
+      toast({title:"failed to delete user"})
     }
   }
 
@@ -92,7 +96,7 @@ export default function Profile() {
         })
       })
       if (res.status === 200) {
-        toast.success('Verification code sent!')
+        toast({title:'Verification code sent!'})
         router.push("/verify")
       }else if(res.status === 400){
         router.push("/verify")
@@ -100,7 +104,7 @@ export default function Profile() {
         throw new Error('Something went wrong');
       }
     } catch (error) {
-      toast.error(error.message);
+      toast({title:error.message});
     }
   }
 

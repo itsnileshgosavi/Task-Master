@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Loading from "../loading/loading";
 import { signIn } from "next-auth/react";
+import { useToast } from "react-toastify";
 
 
 
@@ -17,7 +18,7 @@ const Login = () => {
     password: "",
   });
 
-  
+  const { toast } = useToast();
  
   
 
@@ -32,6 +33,7 @@ const Login = () => {
     console.log(result.error);
   }else{
     console.log("success");
+    toast({title:"Signed in successfully"});
   }
 };
 
@@ -43,14 +45,14 @@ const handleGithubSignIn = async () => {
 
     if (result.error) {
       console.error('Error signing in with GitHub:', result.error);
-      toast.error(`Failed to sign in with GitHub: ${result.error}`);
+      toast({title:`Failed to sign in with GitHub: ${result.error}`});
     } else {
-      toast.success('Signed in successfully');
+      toast({title:"Signed in successfully"});
       // Optionally, redirect the user or perform another action here
     }
   } catch (error) {
     console.error('Unexpected error signing in with GitHub:', error);
-    toast.error('Unexpected error occurred during sign-in');
+    toast({title:'Unexpected error occurred during sign-in'});
   }
 };
  
