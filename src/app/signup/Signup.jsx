@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Loading from "../loading/loading";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { useToast } from "@/components/ui/use-toast";
 
 const RegisterUser = () => {
   const router = useRouter();
@@ -17,27 +18,28 @@ const RegisterUser = () => {
     profile_picture: "",
     about:""
   });
+  const toast = useToast();
 
   const handleRegister = async (e) => {
     e.preventDefault();
     const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
     if(formData.name.trim()===""){
-      toast.error("name is required");
+      toast({title:"name is required", variant:"destructive"});
       return;
     }else if(formData.email.trim()===""){
-      toast.error("email is required");
+      toast({title:"Email is required", variant:"destructive"});
       return;
 
     }else if (!emailRegex.test(formData.email.trim())) {
 
-        toast.error("Please enter a valid email address");
+        toast({title:"Please enter a valid email address", variant:"destructive"});
 
     }else if(formData.password.trim()===""){
-      toast.error("Password cannot be null");
+      toast({title:"Password cannot be null", variant:"destructive"});
       return;
     }else if (formData.password.trim().length < 6) {
-        toast.error("Password must be at least 6 characters long");
+      toast({title:"Password must be at least 6 characters long", variant:"destructive"});
         return;
     }else{
         try {
@@ -52,7 +54,7 @@ const RegisterUser = () => {
           console.log(response)
 
           if (response.ok) {
-            toast.success("User registered successfully");
+            toast({title:"Account created"});
             const welcomeRes = await fetch("/api/resend/send-welcome", {
               method: "POST",
               headers: {
@@ -67,15 +69,15 @@ const RegisterUser = () => {
               router.push("/verify");
             }
           }else if(response.status==403){
-                toast.error("Provided email is already registered please login");
+            toast({title:"Account with this email already exists", variant:"destructive"});
                 return;
           } else {
             console.error("Failed to register user:", response.statusText);
-            toast.error("Failed to register");
+            toast({title:"Failed to register user", variant:"destructive"});
           }
         } catch (error) {
           //setLoading(false);
-          toast.error(`Failed to registered`);
+          toast({title:"Failed to register user", variant:"destructive"});
         }finally{
           setLoading(false);
          

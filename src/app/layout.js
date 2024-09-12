@@ -5,7 +5,7 @@ import Footer from "../components/footer";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AuthProvider from "./context/authProvider";
-
+import { Toaster } from "@/components/ui/toaster";
 import { Suspense } from "react";
 import Loading from "./loading/loading";
 
@@ -27,6 +27,7 @@ export default function RootLayout({ children }) {
               {children}
               <Footer />
             </Suspense>
+            <Toaster/>
             <ToastContainer
               position="top-center"
               autoClose={2000}

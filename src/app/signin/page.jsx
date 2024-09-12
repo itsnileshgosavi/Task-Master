@@ -2,7 +2,7 @@
 import { signIn, getCsrfToken } from 'next-auth/react'
 import React, { useState, useEffect } from 'react'
 import Loading from '../loading/loading'
-import { toast } from 'react-toastify'
+import { useToast } from '@/components/ui/use-toast'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
@@ -18,6 +18,8 @@ const Login = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState('');
+
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetchCsrfToken = async () => {
@@ -52,7 +54,7 @@ const Login = () => {
     
     try {
       if(loginData.email.trim()=="" || loginData.password.trim()==""){
-        toast.error("email or password cannot be null");
+        toast({title:"Password cannot be null", variant:"destructive"});
         
         return;
       }
@@ -64,9 +66,9 @@ const Login = () => {
       callbackUrl: "/your-tasks"
       });
      if(status=="authenticated"){
-        toast.success('success')
+      toast({title:"Success"});
      }else{
-      toast.error(res?.error)
+      toast({title:res.error, variant:"destructive"});
      }
       
     } catch (error) {
