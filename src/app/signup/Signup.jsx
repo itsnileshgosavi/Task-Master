@@ -90,7 +90,7 @@ const RegisterUser = () => {
   };
 
   return (
-    <div className="p-5 bg-white md:flex-1 mx-auto w-96">
+    <div className="p-5 bg-slate-100 md:flex-1 mx-auto w-[500px] shadow-2xl rounded-3xl">
         <h3 className="my-4 text-2xl font-semibold text-gray-700">Sign Up</h3>
         <form onSubmit={handleRegister} className="flex flex-col space-y-5">
           <div className="flex flex-col space-y-1">
