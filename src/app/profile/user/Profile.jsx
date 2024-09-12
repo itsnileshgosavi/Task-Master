@@ -52,7 +52,7 @@ export default function Profile() {
         about: about,
         profile_picture: profilePicture,
       });
-      console.log(stringified);
+      
       const response = await fetch(`/api/users/${user._id}`, {
         method: "PUT",
         headers: {

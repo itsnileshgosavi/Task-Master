@@ -2,7 +2,7 @@
 
 import { connectDb } from "@/helper/db";
 import { useState } from "react";
-import { toast } from "react-toastify";
+import { useToast } from "@/components/ui/use-toast";
 connectDb();
 
 const AddTask = () => {
@@ -12,12 +12,12 @@ const AddTask = () => {
     status: "Pending",
   });
 
- 
+ const { toast } = useToast();
 
   const handleClick = async (event) => {
     event.preventDefault();
     if(formData.title.trim()==="" || formData.content.trim()===""){
-      toast.info("Title or content cannot be empty");
+      toast({title:"Title and Content cannot be empty", variant:"destructive"});
       return;
     }
     try {
@@ -30,7 +30,7 @@ const AddTask = () => {
       });
 
       if (response.ok) {
-        toast.success("task added");
+        toast({title:"Task Added"});
         // Reset the form fields
         setFormData({
           title: "",
@@ -40,7 +40,7 @@ const AddTask = () => {
         event.target.reset();
       } else {
         console.error("Failed to add task:", response.statusText);
-        toast.error("failed");
+        toast({title:"Failed to Add Task, Please try again", variant:"destructive"});
       }
     } catch (error) {
       console.error("Error adding task:", error.message);
