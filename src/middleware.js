@@ -22,12 +22,9 @@ export async function middleware(request) {
   const loggedInUserNotAccessPath = pathname === '/login' || pathname === '/signup' || pathname ==='/signin';
 
   // Redirect logged-in users trying to access login or signup pages
-  if (loggedInUserNotAccessPath) {
-    
+  if (loggedInUserNotAccessPath) {    
     if (token) {
       return NextResponse.redirect(new URL('/your-tasks', request.url));
-
-   
     }
   } else {
     // Redirect users trying to access protected pages without logging in
@@ -41,7 +38,7 @@ export async function middleware(request) {
           }
         );
       }
-      return NextResponse.redirect(new URL('/signin', request.url));
+      return NextResponse.redirect(new URL('/signin', request.url));//redirect to login
     }
   }
 
@@ -64,21 +61,4 @@ export const config = {
   ],
 };
 
-// import { withAuth } from "next-auth/middleware";
-
-// export default withAuth({
-//   pages: {
-//     signIn: '/api/auth/signin',
-//     error: '/api/auth/error', // Error page to handle failed login
-//   },
-// });
-
-// export const config = {
-//   matcher: [
-    
-//     "/addtask",
-//     "/your-tasks",
-//     "/profile/:path*",
-//   ],
-// };
 

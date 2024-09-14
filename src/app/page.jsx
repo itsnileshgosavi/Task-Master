@@ -1,17 +1,14 @@
 
 import React from "react";
-import { getServerSession } from "next-auth";
-import { options } from "./api/auth/[...nextauth]/auth";
 import Link from "next/link";
 
-
+//Metedata for SEO
 export const metadata = {
   title: "Task Master : Home",
-  description: "View or add your tasks here",
+  description: "Manage your tasks with utmost convinience. Task Master makes it easy for you to stay organized and on track.",
 };
 
 const Home = async () => {
-  const session =await getServerSession(options);
   
   return (
     <>
