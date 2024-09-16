@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-// import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Loading from "../loading/loading";
 import { signIn } from "next-auth/react";
@@ -18,70 +17,76 @@ const RegisterUser = () => {
     profile_picture: "",
     about:""
   });
-  const toast = useToast();
+const { toast } = useToast();
 
   const handleRegister = async (e) => {
     e.preventDefault();
     const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
-    if(formData.name.trim()===""){
+    if (!formData || !formData.name || !formData.email || !formData.password) {
+      toast({title:"All fields are required", variant:"destructive"});
+      return;
+    }
+
+    if (formData.name.trim() === "") {
       toast({title:"name is required", variant:"destructive"});
       return;
-    }else if(formData.email.trim()===""){
+    } else if (formData.email.trim() === "") {
       toast({title:"Email is required", variant:"destructive"});
       return;
 
-    }else if (!emailRegex.test(formData.email.trim())) {
+    } else if (!emailRegex.test(formData.email.trim())) {
 
         toast({title:"Please enter a valid email address", variant:"destructive"});
 
-    }else if(formData.password.trim()===""){
+    } else if (formData.password.trim() === "") {
       toast({title:"Password cannot be null", variant:"destructive"});
       return;
-    }else if (formData.password.trim().length < 6) {
+    } else if (formData.password.trim().length < 6) {
       toast({title:"Password must be at least 6 characters long", variant:"destructive"});
         return;
-    }else{
-        try {
-          setLoading(true);
-          const response = await fetch("/api/users", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formData),
-          });
-          console.log(response)
+    }
 
-          if (response.ok) {
-            toast({title:"Account created"});
-            const welcomeRes = await fetch("/api/resend/send-welcome", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              
-              body: JSON.stringify({
-                email: formData.email,
-              }),
-            })
-            if(welcomeRes.ok){
-              router.push("/verify");
-            }
-          }else if(response.status==403){
-            toast({title:"Account with this email already exists", variant:"destructive"});
-                return;
-          } else {
-            console.error("Failed to register user:", response.statusText);
-            toast({title:"Failed to register user", variant:"destructive"});
-          }
-        } catch (error) {
-          //setLoading(false);
-          toast({title:"Failed to register user", variant:"destructive"});
-        }finally{
-          setLoading(false);
-         
+    try {
+      setLoading(true);
+      const response = await fetch("/api/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        toast({title:"Account created"});
+        const welcomeRes = await fetch("/api/resend/send-welcome", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          
+          body: JSON.stringify({
+            email: formData.email,
+          }),
+        });
+
+        if (welcomeRes.ok) {
+          router.push("/verify");
+        } else {
+          console.error("Failed to send welcome email:", welcomeRes.statusText);
+          toast({title:"Failed to send welcome email", variant:"destructive"});
         }
+      } else if (response.status === 403) {
+        toast({title:"Account with this email already exists", variant:"destructive"});
+      } else {
+        console.error("Failed to register user:", response.statusText);
+        toast({title:"Failed to register user", variant:"destructive"});
+      }
+    } catch (error) {
+      console.error("Error registering user:", error);
+      toast({title:"Error registering user", variant:"destructive"});
+    } finally {
+      setLoading(false);
     }
   };
 
